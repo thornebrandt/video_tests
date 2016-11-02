@@ -1,7 +1,10 @@
 import 'whatwg-fetch';
+import YoutubePlayer from 'react-youtube-player';
 const React = require('react');
 const ReactDOM = require('react-dom');
 const _ = require('underscore');
+
+
 const test_options = require('../../data/test-options');
 
 let Test = React.createClass({
@@ -47,6 +50,16 @@ let Test = React.createClass({
 				<div className="row">
 					<div className="col-xs-12">
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
+						<YoutubePlayer
+						    videoId={test.video.url}
+						    playbackState='unstarted'
+						    configuration={
+						        {
+						            showinfo: 0,
+						            controls: 0
+						        }
+						    }
+						/>
 					</div>
 				</div>
 			</div>

@@ -69,7 +69,7 @@ render(
 		<Router history={browserHistory}>
 			<Route path="/" component={App}>
 				<Route path="/tests" component={TestList} />
-				<Route path="/test/(:video)" component={Test} />
+				<Route path="/test(/:video)" component={Test} />
 				<Route path="/admin" component={Admin} />
 			</Route>
 			<Route path="*" component={PageNotFound} />

@@ -19,6 +19,9 @@ footer{
     cursor: pointer;
 }
 
+.large-text{
+	font-size: 30px;
+}
 
 .nav{
 	height: 35px;
@@ -32,9 +35,15 @@ body{
 	background: #FAFAFA;
 }
 
+.gray{
+	color: gray;
+}
+
 
 .top5 { margin-top:5px; }
 .top10 { margin-top:10px; }
 .top15 { margin-top:15px; }
 .top20 { margin-top:20px; }
 .top30 { margin-top:30px; }
+.top100 { margin-top:100px; }
+.top200 { margin-top:200px; }

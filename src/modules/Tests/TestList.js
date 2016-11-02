@@ -27,6 +27,13 @@ const hypothesis= (
 					Whether or not to show the point system to the student should be considered but
 					treated delicately.
 				</p>
+				<p>
+					Other suggestions:
+					<ul>Persistent Notepad</ul>
+					<ul>Allow the purchase of a 'play' with points</ul>
+					<ul>Provide a video effect that 'distorts' the video</ul>
+				</p>
+
 		</div>
 		<div className="row">
 			<div className="col-xs-12 text-center">

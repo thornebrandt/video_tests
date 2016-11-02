@@ -11,14 +11,17 @@ const test_options = {
 			},
 			challenges: {
 				timer: {
+					key: "timer",
 					description: "15 min. total time limit.",
 					limit: 900000
 				},
 				plays: {
+					key: "plays",
 					description: "Only 3 plays allowed.",
 					limit: 3
 				},
 				none: {
+					key: "none",
 					description: "No time limit.",
 					limit: 0
 				}
@@ -37,15 +40,18 @@ const test_options = {
 			challenges: {
 				timer: {
 					description: "3 minute video. 6 minute time limit.",
-					limit: 360000
+					limit: 360000,
+					key: "timer"
 				},
 				plays: {
 					description: "Only 3 video plays allowed.",
-					limit: 3
+					limit: 3,
+					key: "plays"
 				},
 				none: {
 					description: "No time limit.",
-					limit: 0
+					limit: 0,
+					key: "none"
 				}
 			}
 		}

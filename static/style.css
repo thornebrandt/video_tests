@@ -1,0 +1,40 @@
+footer{
+	padding-top: 50px;
+	font-size: 12px;
+}
+
+
+.selected{
+	border: white solid 1px;
+}
+
+.hover:hover{
+	opacity: 0.8;
+	cursor: pointer;
+	color: gray !important;
+}
+
+.fake-link{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+.nav{
+	height: 35px;
+	width: 100%;
+	background: white;
+	border-bottom: #607D8B solid 1px;
+	margin-bottom: 1px;
+}
+
+body{
+	background: #FAFAFA;
+}
+
+
+.top5 { margin-top:5px; }
+.top10 { margin-top:10px; }
+.top15 { margin-top:15px; }
+.top20 { margin-top:20px; }
+.top30 { margin-top:30px; }

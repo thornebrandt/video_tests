@@ -15,8 +15,8 @@ const hypothesis= (
 					<b>Main Hypothesis:</b> Retention, Reflection, and Engagement will be drastically
 					improved if there is a sense of need to resolve a
 					problem <strong>inside of a narrative</strong>.
-					If there is a incentive to discover supplementary material
-					from solving puzzles, learning the material will be desirable.
+					If there is a incentive to unlock <strong>supplementary content </strong>
+					 by solving puzzles, learning the material will be desirable.
 				</p>
 				<p>
 					Smaller improvements can be made by increasing the sense of urgency,
@@ -33,7 +33,8 @@ const hypothesis= (
 				<ul>
 					<li>Allow the <i>purchase</i> of a 'replay' with points</li>
 					<li>Provide a video effect that 'distorts' the video after every replay</li>
-					<li>Persistent Notepad</li>
+					<li>Persistent Notes text field</li>
+					<li>Persistent drawing scratchpad. ( Studies have shown drawing is more effective than writing )</li>
 				</ul>
 
 		</div>

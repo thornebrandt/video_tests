@@ -1,5 +1,4 @@
 import 'whatwg-fetch';
-import YoutubePlayer from 'react-youtube-player';
 const React = require('react');
 const ReactDOM = require('react-dom');
 const _ = require('underscore');
@@ -63,8 +62,7 @@ let Test = React.createClass({
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
 					{this.renderWrongAnswers()}
-					{!this.state.showVideo && this.renderTest()}
-					{this.state.showVideo && <VideoContainer test={this.state.test} />}
+					{this.renderTestContent()}
 				</div>
 				<hr />
 
@@ -146,28 +144,59 @@ let Test = React.createClass({
 		this.length = length;
 	},
 
-	renderVideo(){
-		return (
-			<div>
-				<h1>VIDEO</h1>
-				<a className="btn btn-primary">I'm Ready For Test</a>
-			</div>
-		);
-	},
-
-	renderTest(){
+	renderTestContent(){
 		return (
 			<div>
 				{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
-				{!this.state.completed && this.state.user_id && this.renderQuestion()}
+				{!this.state.completed && this.state.user_id && this.renderTest()}
 				{this.state.completed && <Results user={this.state.user}  />}
+
 			</div>
 		);
 	},
 
-	renderQuestion(){
-		return <StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
+	renderVideo(){
+		return <VideoContainer
+			test={this.state.test}
+			onVideoEvent={this.onVideoEvent}
+			onClose={this.onCloseVideo}
+		/>
 	},
+
+	renderTest(){
+		return (<div>
+			{this.state.showVideo && this.renderVideo()}
+			{!this.state.showVideo && this.renderQuestions()}
+			</div>
+		);
+	},
+
+	renderQuestions(){
+		return (
+			<div>
+				<a className="btn btn-danger" onClick={this.onReplayVideo}>Replay Video</a>
+				<StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
+			</div>
+		);
+	},
+
+	onVideoEvent(event){
+		//LOG THIS
+		console.log("video event: ", event);
+	},
+
+	onCloseVideo(){
+		this.setState({
+			showVideo: false
+		});
+	},
+
+	onReplayVideo(){
+		this.setState({
+			showVideo: true
+		});
+	}
+
 
 });
 

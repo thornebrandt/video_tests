@@ -34,6 +34,17 @@ let Test = React.createClass({
 			plays: 0,
 			step: 0
 		}
+
+		if(this.props.location.query.debug){
+			state.user = {
+				_id: -1,
+				age: -1,
+				name: "Debugger"
+			}
+			state.age = -1;
+			state.user_id = 1;
+		}
+
 		return state;
 	},
 
@@ -61,56 +72,6 @@ let Test = React.createClass({
 		);
 	},
 
-	addUser(user){
-		this.getUser(user.name)
-		.then((foundUser) => {
-			if(foundUser){
-				this.setState({
-					foundUser: foundUser
-				});
-			} else {
-				this.setState({
-					foundUser: null,
-					user: user
-				});
-			}
-		});
-	},
-
-	useFoundUser(){
-		let user = this.state.foundUser;
-		let age = this.state.foundUser.age;
-		this.setState({
-			foundUser: null,
-			user: user,
-			age: age
-		});
-		console.log("useFoundUser", this.state);
-	},
-
-	addAge(agedUser){
-		let user = this.state.user;
-		user.age = agedUser.age;
-		return fetch('/api/users', {
-			method: 'POST',
-			body: JSON.stringify(user),
-			headers: new Headers({
-				'Content-Type': 'application/json'
-			})
-		}).then((response) => response.json())
-		.then((data) => {
-			let user = data;
-			this.setState({
-				user: user,
-				age: user.age
-			});
-		})
-		.catch((error) => {
-			console.log('error creating user: ', error);
-		});
-	},
-
-
 	getUser(user){
 		console.log("setting state: ", user);
 		this.setState({
@@ -120,16 +81,5 @@ let Test = React.createClass({
 		});
 	}
 });
-
-
-
-let Step = React.createClass({
-	render(){
-		return(
-			<div><h1>Step 1</h1></div>
-		)
-	}
-});
-
 
 module.exports = Test;

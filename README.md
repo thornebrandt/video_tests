@@ -12,6 +12,17 @@
 1. Install babel-cli globally with `npm install -g babel-cli`
 2. To watch files and compile them with webpack: `npm run watch`
 
+##Logs
+
+1. After you've clicked through and completed a few tests, check out  [http://localhost:3000/api/logs](http://localhost:3000/api/logs)
+
+## Editing the Tests
+
+1. Question data is is /src/data
+2. Chosen tests to include are in an array of video names in /src/modules/Tests/Test.js.
+
+
+
 
 ( This is still in development, specifically the logging component )
 Email thornebrandt@gmail.com with any problems, questions, feedback.

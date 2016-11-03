@@ -60,8 +60,7 @@ app.get('/api/users/:name', (req, res) => {
 	});
 });
 
-
-/*Modify one dude */
+/*Modify one user */
 app.put('/api/users/:id', (req, res) =>{
 	let user = req.body;
 	let oid = ObjectId(req.params.id);
@@ -72,7 +71,7 @@ app.put('/api/users/:id', (req, res) =>{
 	});
 });
 
-/*Create a dude*/
+/*Create a user*/
 app.post('/api/users', (req, res) => {
 	let newUser = req.body;
 	db.collection("users").insertOne(newUser, (err, result) => {
@@ -109,6 +108,8 @@ MongoClient.connect('mongodb://localhost/video_tests', (err, dbConnection) => {
 		server = app.listen(3000, () =>{
 			let port = server.address().port;
 			console.log("Server started at port: ", port);
+			console.log("-----");
+			console.log("Don't just stand there! Open up http://localhost:3000/ in Chrome");
 		});
 	}
 });

@@ -31,11 +31,11 @@ const test_options = {
 		'zombie' : {
 			id: 'zombie',
 			title: 'Zombie Antidote*',
-			url: 'ATxR32WGvJ0',
+			url: 'eLErzsFy6I4',
 			description: "Cartoon plea to prevent human extinction against zombie uprising.",
 			suggested: true,
 			style: {
-				background: '#3B5323',
+				background: '#3B532',
 				color: '#C5E3BF',
 				borderRadius: '5px'
 			},

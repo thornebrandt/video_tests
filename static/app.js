@@ -66,7 +66,7 @@
 
 	var TestList = __webpack_require__(227);
 	var Test = __webpack_require__(480);
-	var Admin = __webpack_require__(631);
+	var Admin = __webpack_require__(481);
 
 	var IndexClass = _react2.default.createClass({
 		displayName: 'IndexClass',
@@ -46122,7 +46122,7 @@
 
 	__webpack_require__(228);
 
-	var _reactYoutubePlayer = __webpack_require__(481);
+	var _reactYoutubePlayer = __webpack_require__(483);
 
 	var _reactYoutubePlayer2 = _interopRequireDefault(_reactYoutubePlayer);
 
@@ -46130,10 +46130,10 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
-	var _ = __webpack_require__(520);
+	var _ = __webpack_require__(522);
 	var test_options = __webpack_require__(479);
 	var UserCreation = __webpack_require__(523);
-	var StandardTest = __webpack_require__(634);
+	var StandardTest = __webpack_require__(631);
 
 	var Test = React.createClass({
 		displayName: 'Test',
@@ -46221,7 +46221,8 @@
 						)
 					),
 					!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
-					this.renderTest()
+					!this.state.completed && this.state.user_id && this.renderTest(),
+					this.state.completed && React.createElement(Results, { user: this.state.user })
 				),
 				React.createElement('hr', null)
 			);
@@ -46234,18 +46235,50 @@
 			});
 		},
 		onAnswer: function onAnswer(correct) {
-			console.log("on answer?", correct);
 			if (correct) {
 				var currentStep = this.state.step;
 				currentStep++;
-				this.setState({
-					step: currentStep
-				});
-				console.log("huh??", this.state.step);
+				//finished
+				if (currentStep >= this.length) {
+					this.completeTest();
+				} else {
+					this.progress(currentStep);
+				}
 			}
 		},
+		progress: function progress(newStep) {
+			this.setState({
+				step: newStep
+			});
+		},
+		completeTest: function completeTest() {
+			this.setState({
+				completed: true
+			});
+		},
+		getLength: function getLength(length) {
+			//to make sure we're dependent on questions that exist in test
+			this.length = length;
+		},
 		renderTest: function renderTest() {
-			return React.createElement(StandardTest, { test: this.state.test, step: this.state.step, onAnswer: this.onAnswer });
+			return React.createElement(StandardTest, { test: this.state.test, step: this.state.step, onAnswer: this.onAnswer, getLength: this.getLength });
+		}
+	});
+
+	var Results = React.createClass({
+		displayName: 'Results',
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'col-xs-12' },
+				React.createElement(
+					'h1',
+					null,
+					'Nice Work, ',
+					this.props.user.name,
+					', let\'s get your results'
+				)
+			);
 		}
 	});
 
@@ -46257,7 +46290,183 @@
 
 	'use strict';
 
-	var _lodashLangIsString2 = __webpack_require__(482);
+	__webpack_require__(228);
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(34);
+	var Link = __webpack_require__(172).Link;
+	var fake_all_sessions = __webpack_require__(482);
+
+	var Admin = React.createClass({
+		displayName: 'Admin',
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'div',
+					{ className: 'jumbotron text-center' },
+					React.createElement(
+						'h1',
+						{ className: 'text-center' },
+						'Admin'
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = Admin;
+
+/***/ },
+/* 482 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var fake_all_sessions = {
+		fake_all_sessions: [{
+			"timestamp": "2016-11-01T01:00:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 0,
+			"action": "start_test"
+		}, {
+			"timestamp": "2016-11-01T01:01:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 0,
+			"action": "play_video"
+		}, {
+			"timestamp": "2016-11-01T01:02:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 0,
+			"action": "pause_video"
+		}, {
+			"timestamp": "2016-11-01T01:03:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 0,
+			"action": "took notes",
+			"notes": "Creepy guy"
+		}, {
+			"timestamp": "2016-11-01T01:04:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 0,
+			"action": "play_video"
+		}, {
+			"timestamp": "2016-11-01T01:05:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 0,
+			"action": "video_ended"
+		}, {
+			"timestamp": "2016-11-01T01:06:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 1,
+			"action": "replay_video"
+		}, {
+			"timestamp": "2016-11-01T01:07:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 1,
+			"action": "take_notes"
+		}, {
+			"timestamp": "2016-11-01T01:08:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 1,
+			"action": "right_answer"
+		}, {
+			"timestamp": "2016-11-01T01:09:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 2,
+			"action": "right_answer"
+		}, {
+			"timestamp": "2016-11-01T01:10:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 3,
+			"action": "wrong_answer"
+		}, {
+			"timestamp": "2016-11-01T01:11:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 3,
+			"action": "right_answer"
+		}, {
+			"timestamp": "2016-11-01T01:13:00.000Z",
+			"user_id": "1",
+			"user_name": "FakeKidA",
+			"user_age": 12,
+			"test_name": "mathnet",
+			"test_type": "standard",
+			"challenge": "none",
+			"question": 3,
+			"action": "test_completed"
+		}]
+	};
+	module.exports = fake_all_sessions;
+
+/***/ },
+/* 483 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _lodashLangIsString2 = __webpack_require__(484);
 
 	var _lodashLangIsString3 = _interopRequireDefault(_lodashLangIsString2);
 
@@ -46277,11 +46486,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _youtubePlayer = __webpack_require__(484);
+	var _youtubePlayer = __webpack_require__(486);
 
 	var _youtubePlayer2 = _interopRequireDefault(_youtubePlayer);
 
-	var _isNumeric = __webpack_require__(519);
+	var _isNumeric = __webpack_require__(521);
 
 	var _isNumeric2 = _interopRequireDefault(_isNumeric);
 
@@ -46612,10 +46821,10 @@
 
 
 /***/ },
-/* 482 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(483);
+	var isObjectLike = __webpack_require__(485);
 
 	/** `Object#toString` result references. */
 	var stringTag = '[object String]';
@@ -46653,7 +46862,7 @@
 
 
 /***/ },
-/* 483 */
+/* 485 */
 /***/ function(module, exports) {
 
 	/**
@@ -46671,16 +46880,16 @@
 
 
 /***/ },
-/* 484 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _lodashCollectionForEach2 = __webpack_require__(485);
+	var _lodashCollectionForEach2 = __webpack_require__(487);
 
 	var _lodashCollectionForEach3 = _interopRequireDefault(_lodashCollectionForEach2);
 
-	var _lodashStringCapitalize2 = __webpack_require__(510);
+	var _lodashStringCapitalize2 = __webpack_require__(512);
 
 	var _lodashStringCapitalize3 = _interopRequireDefault(_lodashStringCapitalize2);
 
@@ -46688,23 +46897,23 @@
 	    value: true
 	});
 
-	var _sister = __webpack_require__(512);
+	var _sister = __webpack_require__(514);
 
 	var _sister2 = _interopRequireDefault(_sister);
 
-	var _bluebird = __webpack_require__(513);
+	var _bluebird = __webpack_require__(515);
 
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
-	var _functionNames = __webpack_require__(515);
+	var _functionNames = __webpack_require__(517);
 
 	var _functionNames2 = _interopRequireDefault(_functionNames);
 
-	var _eventNames = __webpack_require__(516);
+	var _eventNames = __webpack_require__(518);
 
 	var _eventNames2 = _interopRequireDefault(_eventNames);
 
-	var _loadYouTubeIframeAPI = __webpack_require__(517);
+	var _loadYouTubeIframeAPI = __webpack_require__(519);
 
 	var _loadYouTubeIframeAPI2 = _interopRequireDefault(_loadYouTubeIframeAPI);
 
@@ -46836,12 +47045,12 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 485 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayEach = __webpack_require__(486),
-	    baseEach = __webpack_require__(487),
-	    createForEach = __webpack_require__(507);
+	var arrayEach = __webpack_require__(488),
+	    baseEach = __webpack_require__(489),
+	    createForEach = __webpack_require__(509);
 
 	/**
 	 * Iterates over elements of `collection` invoking `iteratee` for each element.
@@ -46879,7 +47088,7 @@
 
 
 /***/ },
-/* 486 */
+/* 488 */
 /***/ function(module, exports) {
 
 	/**
@@ -46907,11 +47116,11 @@
 
 
 /***/ },
-/* 487 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseForOwn = __webpack_require__(488),
-	    createBaseEach = __webpack_require__(506);
+	var baseForOwn = __webpack_require__(490),
+	    createBaseEach = __webpack_require__(508);
 
 	/**
 	 * The base implementation of `_.forEach` without support for callback
@@ -46928,11 +47137,11 @@
 
 
 /***/ },
-/* 488 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseFor = __webpack_require__(489),
-	    keys = __webpack_require__(493);
+	var baseFor = __webpack_require__(491),
+	    keys = __webpack_require__(495);
 
 	/**
 	 * The base implementation of `_.forOwn` without support for callback
@@ -46951,10 +47160,10 @@
 
 
 /***/ },
-/* 489 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var createBaseFor = __webpack_require__(490);
+	var createBaseFor = __webpack_require__(492);
 
 	/**
 	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
@@ -46974,10 +47183,10 @@
 
 
 /***/ },
-/* 490 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toObject = __webpack_require__(491);
+	var toObject = __webpack_require__(493);
 
 	/**
 	 * Creates a base function for `_.forIn` or `_.forInRight`.
@@ -47007,10 +47216,10 @@
 
 
 /***/ },
-/* 491 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(492);
+	var isObject = __webpack_require__(494);
 
 	/**
 	 * Converts `value` to an object if it's not one.
@@ -47027,7 +47236,7 @@
 
 
 /***/ },
-/* 492 */
+/* 494 */
 /***/ function(module, exports) {
 
 	/**
@@ -47061,13 +47270,13 @@
 
 
 /***/ },
-/* 493 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(494),
-	    isArrayLike = __webpack_require__(497),
-	    isObject = __webpack_require__(492),
-	    shimKeys = __webpack_require__(501);
+	var getNative = __webpack_require__(496),
+	    isArrayLike = __webpack_require__(499),
+	    isObject = __webpack_require__(494),
+	    shimKeys = __webpack_require__(503);
 
 	/* Native method references for those with the same name as other `lodash` methods. */
 	var nativeKeys = getNative(Object, 'keys');
@@ -47112,10 +47321,10 @@
 
 
 /***/ },
-/* 494 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isNative = __webpack_require__(495);
+	var isNative = __webpack_require__(497);
 
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -47134,11 +47343,11 @@
 
 
 /***/ },
-/* 495 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(496),
-	    isObjectLike = __webpack_require__(483);
+	var isFunction = __webpack_require__(498),
+	    isObjectLike = __webpack_require__(485);
 
 	/** Used to detect host constructors (Safari > 5). */
 	var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -47188,10 +47397,10 @@
 
 
 /***/ },
-/* 496 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(492);
+	var isObject = __webpack_require__(494);
 
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]';
@@ -47232,11 +47441,11 @@
 
 
 /***/ },
-/* 497 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getLength = __webpack_require__(498),
-	    isLength = __webpack_require__(500);
+	var getLength = __webpack_require__(500),
+	    isLength = __webpack_require__(502);
 
 	/**
 	 * Checks if `value` is array-like.
@@ -47253,10 +47462,10 @@
 
 
 /***/ },
-/* 498 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseProperty = __webpack_require__(499);
+	var baseProperty = __webpack_require__(501);
 
 	/**
 	 * Gets the "length" property value of `object`.
@@ -47274,7 +47483,7 @@
 
 
 /***/ },
-/* 499 */
+/* 501 */
 /***/ function(module, exports) {
 
 	/**
@@ -47294,7 +47503,7 @@
 
 
 /***/ },
-/* 500 */
+/* 502 */
 /***/ function(module, exports) {
 
 	/**
@@ -47320,14 +47529,14 @@
 
 
 /***/ },
-/* 501 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArguments = __webpack_require__(502),
-	    isArray = __webpack_require__(503),
-	    isIndex = __webpack_require__(504),
-	    isLength = __webpack_require__(500),
-	    keysIn = __webpack_require__(505);
+	var isArguments = __webpack_require__(504),
+	    isArray = __webpack_require__(505),
+	    isIndex = __webpack_require__(506),
+	    isLength = __webpack_require__(502),
+	    keysIn = __webpack_require__(507);
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -47367,11 +47576,11 @@
 
 
 /***/ },
-/* 502 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(497),
-	    isObjectLike = __webpack_require__(483);
+	var isArrayLike = __webpack_require__(499),
+	    isObjectLike = __webpack_require__(485);
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -47407,12 +47616,12 @@
 
 
 /***/ },
-/* 503 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(494),
-	    isLength = __webpack_require__(500),
-	    isObjectLike = __webpack_require__(483);
+	var getNative = __webpack_require__(496),
+	    isLength = __webpack_require__(502),
+	    isObjectLike = __webpack_require__(485);
 
 	/** `Object#toString` result references. */
 	var arrayTag = '[object Array]';
@@ -47453,7 +47662,7 @@
 
 
 /***/ },
-/* 504 */
+/* 506 */
 /***/ function(module, exports) {
 
 	/** Used to detect unsigned integer values. */
@@ -47483,14 +47692,14 @@
 
 
 /***/ },
-/* 505 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArguments = __webpack_require__(502),
-	    isArray = __webpack_require__(503),
-	    isIndex = __webpack_require__(504),
-	    isLength = __webpack_require__(500),
-	    isObject = __webpack_require__(492);
+	var isArguments = __webpack_require__(504),
+	    isArray = __webpack_require__(505),
+	    isIndex = __webpack_require__(506),
+	    isLength = __webpack_require__(502),
+	    isObject = __webpack_require__(494);
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -47553,12 +47762,12 @@
 
 
 /***/ },
-/* 506 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getLength = __webpack_require__(498),
-	    isLength = __webpack_require__(500),
-	    toObject = __webpack_require__(491);
+	var getLength = __webpack_require__(500),
+	    isLength = __webpack_require__(502),
+	    toObject = __webpack_require__(493);
 
 	/**
 	 * Creates a `baseEach` or `baseEachRight` function.
@@ -47590,11 +47799,11 @@
 
 
 /***/ },
-/* 507 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var bindCallback = __webpack_require__(508),
-	    isArray = __webpack_require__(503);
+	var bindCallback = __webpack_require__(510),
+	    isArray = __webpack_require__(505);
 
 	/**
 	 * Creates a function for `_.forEach` or `_.forEachRight`.
@@ -47616,10 +47825,10 @@
 
 
 /***/ },
-/* 508 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(509);
+	var identity = __webpack_require__(511);
 
 	/**
 	 * A specialized version of `baseCallback` which only supports `this` binding
@@ -47661,7 +47870,7 @@
 
 
 /***/ },
-/* 509 */
+/* 511 */
 /***/ function(module, exports) {
 
 	/**
@@ -47687,10 +47896,10 @@
 
 
 /***/ },
-/* 510 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseToString = __webpack_require__(511);
+	var baseToString = __webpack_require__(513);
 
 	/**
 	 * Capitalizes the first character of `string`.
@@ -47714,7 +47923,7 @@
 
 
 /***/ },
-/* 511 */
+/* 513 */
 /***/ function(module, exports) {
 
 	/**
@@ -47733,7 +47942,7 @@
 
 
 /***/ },
-/* 512 */
+/* 514 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -47799,7 +48008,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 513 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -52694,10 +52903,10 @@
 
 	},{"./es5.js":14}]},{},[4])(4)
 	});                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), (function() { return this; }()), __webpack_require__(514).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), (function() { return this; }()), __webpack_require__(516).setImmediate))
 
 /***/ },
-/* 514 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(3).nextTick;
@@ -52776,10 +52985,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(514).setImmediate, __webpack_require__(514).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(516).setImmediate, __webpack_require__(516).clearImmediate))
 
 /***/ },
-/* 515 */
+/* 517 */
 /***/ function(module, exports) {
 
 	/**
@@ -52795,7 +53004,7 @@
 	//# sourceMappingURL=functionNames.js.map
 
 /***/ },
-/* 516 */
+/* 518 */
 /***/ function(module, exports) {
 
 	/**
@@ -52811,7 +53020,7 @@
 	//# sourceMappingURL=eventNames.js.map
 
 /***/ },
-/* 517 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -52822,11 +53031,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _bluebird = __webpack_require__(513);
+	var _bluebird = __webpack_require__(515);
 
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
-	var _loadScript = __webpack_require__(518);
+	var _loadScript = __webpack_require__(520);
 
 	var _loadScript2 = _interopRequireDefault(_loadScript);
 
@@ -52866,7 +53075,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 518 */
+/* 520 */
 /***/ function(module, exports) {
 
 	
@@ -52937,7 +53146,7 @@
 
 
 /***/ },
-/* 519 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(root) {
@@ -52967,7 +53176,7 @@
 
 
 /***/ },
-/* 520 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -54521,8 +54730,6 @@
 
 
 /***/ },
-/* 521 */,
-/* 522 */,
 /* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -69231,185 +69438,8 @@
 
 	'use strict';
 
-	__webpack_require__(228);
-
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(34);
-	var Link = __webpack_require__(172).Link;
-	var fake_all_sessions = __webpack_require__(632);
-
-	var Admin = React.createClass({
-		displayName: 'Admin',
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'div',
-					{ className: 'jumbotron text-center' },
-					React.createElement(
-						'h1',
-						{ className: 'text-center' },
-						'Admin'
-					)
-				)
-			);
-		}
-	});
-
-	module.exports = Admin;
-
-/***/ },
-/* 632 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	var fake_all_sessions = {
-		fake_all_sessions: [{
-			"timestamp": "2016-11-01T01:00:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 0,
-			"action": "start_test"
-		}, {
-			"timestamp": "2016-11-01T01:01:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 0,
-			"action": "play_video"
-		}, {
-			"timestamp": "2016-11-01T01:02:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 0,
-			"action": "pause_video"
-		}, {
-			"timestamp": "2016-11-01T01:03:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 0,
-			"action": "took notes",
-			"notes": "Creepy guy"
-		}, {
-			"timestamp": "2016-11-01T01:04:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 0,
-			"action": "play_video"
-		}, {
-			"timestamp": "2016-11-01T01:05:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 0,
-			"action": "video_ended"
-		}, {
-			"timestamp": "2016-11-01T01:06:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 1,
-			"action": "replay_video"
-		}, {
-			"timestamp": "2016-11-01T01:07:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 1,
-			"action": "take_notes"
-		}, {
-			"timestamp": "2016-11-01T01:08:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 1,
-			"action": "right_answer"
-		}, {
-			"timestamp": "2016-11-01T01:09:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 2,
-			"action": "right_answer"
-		}, {
-			"timestamp": "2016-11-01T01:10:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 3,
-			"action": "wrong_answer"
-		}, {
-			"timestamp": "2016-11-01T01:11:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 3,
-			"action": "right_answer"
-		}, {
-			"timestamp": "2016-11-01T01:13:00.000Z",
-			"user_id": "1",
-			"user_name": "FakeKidA",
-			"user_age": 12,
-			"test_name": "mathnet",
-			"test_type": "standard",
-			"challenge": "none",
-			"question": 3,
-			"action": "test_completed"
-		}]
-	};
-	module.exports = fake_all_sessions;
-
-/***/ },
-/* 633 */,
-/* 634 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var qs = __webpack_require__(635);
+	var qs = __webpack_require__(632);
 	var StandardTest = React.createClass({
 		displayName: 'StandardTest',
 
@@ -69436,6 +69466,11 @@
 			this.questions = qs[test_id].questions;
 			this.choices = qs[test_id].choices;
 			this.answers = qs[test_id].answers;
+			this.setLength(this.questions.length);
+		},
+		setLength: function setLength(length) {
+			this.length = length;
+			this.props.getLength(length);
 		},
 		renderQuestions: function renderQuestions(step) {
 			var _this = this;
@@ -69488,7 +69523,7 @@
 	module.exports = StandardTest;
 
 /***/ },
-/* 635 */
+/* 632 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -47,6 +47,12 @@ let StandardTest = React.createClass({
 		this.questions = qs[test_id].questions;
 		this.choices = qs[test_id].choices;
 		this.answers = qs[test_id].answers;
+		this.setLength(this.questions.length);
+	},
+
+	setLength(length){
+		this.length = length;
+		this.props.getLength(length);
 	},
 
 	renderQuestions(step){

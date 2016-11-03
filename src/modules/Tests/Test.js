@@ -66,7 +66,8 @@ let Test = React.createClass({
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
 					{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
-					{this.renderTest()}
+					{!this.state.completed && this.state.user_id && this.renderTest()}
+					{this.state.completed && <Results user={this.state.user}  />}
 				</div>
 				<hr />
 
@@ -83,23 +84,50 @@ let Test = React.createClass({
 	},
 
 	onAnswer(correct){
-		console.log("on answer?", correct);
 		if(correct){
 			let currentStep = this.state.step;
 			currentStep++;
-			this.setState({
-				step: currentStep
-			});
-			console.log("huh??", this.state.step);
+			//finished
+			if(currentStep >= this.length){
+				this.completeTest();
+			} else {
+				this.progress(currentStep);
+			}
 		}
 	},
 
+	progress(newStep){
+		this.setState({
+			step: newStep
+		});
+	},
+
+	completeTest(){
+		this.setState({
+			completed: true
+		});
+	},
+
+	getLength(length){
+		//to make sure we're dependent on questions that exist in test
+		this.length = length;
+	},
+
 	renderTest(){
-		return <StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer}/>
+		return <StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
 	}
+
+
 });
 
-
-
+let Results = React.createClass({
+	render(){
+		return (
+			<div className="col-xs-12">
+				<h1>Nice Work, {this.props.user.name}, let's get your results</h1>
+			</div>
+		)
+	}
+});
 
 module.exports = Test;

@@ -6,6 +6,8 @@ const test_options = require('../../data/test-options');
 const UserCreation = require('../User/UserCreation');
 const StandardTest = require('./StandardTest');
 const VideoContainer = require('./VideoContainer');
+const ZombieNarrative = require('./ZombieNarrative');
+const MathNetNarrative = require('./MathNetNarrative');
 const TestTimer = require('./TestTimer');
 const moment = require('moment');
 
@@ -192,12 +194,38 @@ let Test = React.createClass({
 	},
 
 	renderQuestions(){
+		let test;
+		if(this.state.test.type === "narrative"){
+
+			if(this.state.test.id === "mathnet"){
+				test = <MathNetNarrative
+						test={this.state.test}
+						step={this.state.step}
+						onAnswer={this.onAnswer}
+						getLength={this.getLength}
+						/>
+			} else {
+				test = <ZombieNarrative
+						test={this.state.test}
+						step={this.state.step}
+						onAnswer={this.onAnswer}
+						getLength={this.getLength}
+						/>
+			}
+		} else {
+			test = <StandardTest
+					test={this.state.test}
+					step={this.state.step}
+					onAnswer={this.onAnswer}
+					getLength={this.getLength}
+					/>
+		}
 		return (
 			<div>
 				<a className="btn large-text" onClick={this.onReplayVideo}>
 					<span className="glyphicon glyphicon-film"> </span> - Replay Video
 				</a>
-				<StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
+				{test}
 			</div>
 		);
 	},

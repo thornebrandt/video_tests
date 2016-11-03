@@ -46140,6 +46140,8 @@
 	var UserCreation = __webpack_require__(482);
 	var StandardTest = __webpack_require__(590);
 	var VideoContainer = __webpack_require__(592);
+	var ZombieNarrative = __webpack_require__(658);
+	var MathNetNarrative = __webpack_require__(659);
 	var TestTimer = __webpack_require__(654);
 	var moment = __webpack_require__(483);
 
@@ -46326,6 +46328,32 @@
 			);
 		},
 		renderQuestions: function renderQuestions() {
+			var test = void 0;
+			if (this.state.test.type === "narrative") {
+
+				if (this.state.test.id === "mathnet") {
+					test = React.createElement(MathNetNarrative, {
+						test: this.state.test,
+						step: this.state.step,
+						onAnswer: this.onAnswer,
+						getLength: this.getLength
+					});
+				} else {
+					test = React.createElement(ZombieNarrative, {
+						test: this.state.test,
+						step: this.state.step,
+						onAnswer: this.onAnswer,
+						getLength: this.getLength
+					});
+				}
+			} else {
+				test = React.createElement(StandardTest, {
+					test: this.state.test,
+					step: this.state.step,
+					onAnswer: this.onAnswer,
+					getLength: this.getLength
+				});
+			}
 			return React.createElement(
 				'div',
 				null,
@@ -46339,7 +46367,7 @@
 					),
 					' - Replay Video'
 				),
-				React.createElement(StandardTest, { test: this.state.test, step: this.state.step, onAnswer: this.onAnswer, getLength: this.getLength })
+				test
 			);
 		},
 		onVideoEvent: function onVideoEvent(event) {
@@ -73156,6 +73184,66 @@
 		}]
 	};
 	module.exports = fake_all_sessions;
+
+/***/ },
+/* 658 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var ZombieNarrative = React.createClass({
+		displayName: "ZombieNarrative",
+		render: function render() {
+			return React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-12" },
+					React.createElement(
+						"h2",
+						null,
+						"ZombieNarrative"
+					)
+				)
+			);
+		},
+		renderQuestions: function renderQuestions(step) {}
+	});
+
+	module.exports = ZombieNarrative;
+
+/***/ },
+/* 659 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var MathNetNarrative = React.createClass({
+		displayName: "MathNetNarrative",
+		render: function render() {
+			return React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-12" },
+					React.createElement(
+						"h2",
+						null,
+						"MathnetNarrative"
+					)
+				)
+			);
+		},
+		renderQuestions: function renderQuestions(step) {}
+	});
+
+	module.exports = MathNetNarrative;
 
 /***/ }
 /******/ ]);

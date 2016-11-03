@@ -46134,6 +46134,7 @@
 	var test_options = __webpack_require__(479);
 	var UserCreation = __webpack_require__(523);
 	var StandardTest = __webpack_require__(631);
+	var VideoContainer = __webpack_require__(633);
 
 	var Test = React.createClass({
 		displayName: 'Test',
@@ -46163,7 +46164,8 @@
 				},
 				plays: 0,
 				step: 0,
-				wrong: 0
+				wrong: 0,
+				showVideo: true
 			};
 
 			if (this.props.location.query.debug) {
@@ -46181,22 +46183,6 @@
 		},
 		render: function render() {
 			var test = this.state.test;
-			var content = void 0;
-			if (this.state.user) {
-				content = React.createElement(
-					'h2',
-					null,
-					' Hello ',
-					this.state.user,
-					' '
-				);
-			} else {
-				content = React.createElement(
-					'h2',
-					null,
-					' You need a user '
-				);
-			}
 			return React.createElement(
 				'div',
 				{ className: 'container' },
@@ -46222,9 +46208,8 @@
 						)
 					),
 					this.renderWrongAnswers(),
-					!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
-					!this.state.completed && this.state.user_id && this.renderTest(),
-					this.state.completed && React.createElement(Results, { user: this.state.user })
+					!this.state.showVideo && this.renderTest(),
+					this.state.showVideo && React.createElement(VideoContainer, { test: this.state.test })
 				),
 				React.createElement('hr', null)
 			);
@@ -46293,7 +46278,32 @@
 			//to make sure we're dependent on questions that exist in test
 			this.length = length;
 		},
+		renderVideo: function renderVideo() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'h1',
+					null,
+					'VIDEO'
+				),
+				React.createElement(
+					'a',
+					{ className: 'btn btn-primary' },
+					'I\'m Ready For Test'
+				)
+			);
+		},
 		renderTest: function renderTest() {
+			return React.createElement(
+				'div',
+				null,
+				!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
+				!this.state.completed && this.state.user_id && this.renderQuestion(),
+				this.state.completed && React.createElement(Results, { user: this.state.user })
+			);
+		},
+		renderQuestion: function renderQuestion() {
 			return React.createElement(StandardTest, { test: this.state.test, step: this.state.step, onAnswer: this.onAnswer, getLength: this.getLength });
 		}
 	});
@@ -69581,6 +69591,34 @@
 	};
 
 	module.exports = test_questions;
+
+/***/ },
+/* 633 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(228);
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(34);
+
+	var VideoContainer = React.createClass({
+		displayName: 'VideoContainer',
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'a',
+					{ className: 'btn btn-primary', onClick: this.props.onClose },
+					'Take me to Test'
+				)
+			);
+		}
+	});
+
+	module.exports = VideoContainer;
 
 /***/ }
 /******/ ]);

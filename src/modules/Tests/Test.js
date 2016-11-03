@@ -6,6 +6,7 @@ const _ = require('underscore');
 const test_options = require('../../data/test-options');
 const UserCreation = require('../User/UserCreation');
 const StandardTest = require('./StandardTest');
+const VideoContainer = require('./VideoContainer');
 
 let Test = React.createClass({
 	getInitialState(){
@@ -35,7 +36,8 @@ let Test = React.createClass({
 			},
 			plays: 0,
 			step: 0,
-			wrong: 0
+			wrong: 0,
+			showVideo: true
 		}
 
 		if(this.props.location.query.debug){
@@ -54,12 +56,6 @@ let Test = React.createClass({
 
 	render(){
 		let test = this.state.test;
-		let content;
-		if(this.state.user){
-			content = ( <h2> Hello {this.state.user} </h2> )
-		} else {
-			content = ( <h2> You need a user </h2> )
-		}
 		return (
 			<div className="container">
 				<div className="row">
@@ -67,9 +63,8 @@ let Test = React.createClass({
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
 					{this.renderWrongAnswers()}
-					{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
-					{!this.state.completed && this.state.user_id && this.renderTest()}
-					{this.state.completed && <Results user={this.state.user}  />}
+					{!this.state.showVideo && this.renderTest()}
+					{this.state.showVideo && <VideoContainer test={this.state.test} />}
 				</div>
 				<hr />
 
@@ -107,6 +102,7 @@ let Test = React.createClass({
 			wrong: wrong
 		});
 	},
+
 
 	renderWrongAnswers(){
 		let answers = this.state.wrong || 0;
@@ -150,7 +146,26 @@ let Test = React.createClass({
 		this.length = length;
 	},
 
+	renderVideo(){
+		return (
+			<div>
+				<h1>VIDEO</h1>
+				<a className="btn btn-primary">I'm Ready For Test</a>
+			</div>
+		);
+	},
+
 	renderTest(){
+		return (
+			<div>
+				{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
+				{!this.state.completed && this.state.user_id && this.renderQuestion()}
+				{this.state.completed && <Results user={this.state.user}  />}
+			</div>
+		);
+	},
+
+	renderQuestion(){
 		return <StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
 	},
 

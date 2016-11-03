@@ -43,6 +43,7 @@ let VideoContainer = React.createClass({
 				break;
 			case 1:
 				action="play";
+				this.props.onPlay();
 				break;
 			case 2:
 				action="pause";

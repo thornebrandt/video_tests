@@ -58,7 +58,7 @@ let Test = React.createClass({
 			state.timer = true;
 			state.timerRunning = false;
 			//state.timeLeft = challenge.limit
-			state.timeLeft = 10;
+			state.timeLeft = 4;
 		}
 
 		return state;
@@ -68,7 +68,10 @@ let Test = React.createClass({
 		let test = this.state.test;
 		return (
 			<div className="container">
-				{this.state.timer && <TestTimer onTimerUpdate={this.onTimerUpdate} timerRunning={this.state.timerRunning} timeLeft={this.state.timeLeft}/>}
+				{this.state.timer && <TestTimer
+										onTimerUpdate={this.onTimerUpdate}
+										timerRunning={this.state.timerRunning}
+										timeLeft={this.state.timeLeft}/>}
 				<div className="r   ow">
 					<div className="col-xs-12">
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
@@ -161,7 +164,10 @@ let Test = React.createClass({
 			<div>
 				{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
 				{!this.state.completed && this.state.user_id && this.renderTest()}
-				{this.state.completed && <Results user={this.state.user}  />}
+				{this.state.completed && <Results
+											user={this.state.user}
+											failed={this.state.failed}
+										 />}
 
 			</div>
 		);
@@ -172,6 +178,7 @@ let Test = React.createClass({
 			test={this.state.test}
 			onVideoEvent={this.onVideoEvent}
 			onClose={this.onCloseVideo}
+			onPlay={this.onPlayVideo}
 		/>
 	},
 
@@ -206,6 +213,32 @@ let Test = React.createClass({
 		});
 	},
 
+	onPlayVideo(){
+		let plays = this.state.plays;
+		plays++;
+		this.setState({
+			plays: plays
+		});
+		if(plays === 1){
+			//it's the first.
+			this.onFirstPlay();
+		}
+
+		//PSEUDO - REMOVE COIN FROM PLAYS
+	},
+
+	onFirstPlay(){
+		if(this.state.timer){
+			this.startTimer();
+		}
+	},
+
+	startTimer(){
+		this.setState({
+			timerRunning: true
+		});
+	},
+
 	onReplayVideo(){
 		this.setState({
 			showVideo: true
@@ -215,18 +248,34 @@ let Test = React.createClass({
 	onTimerUpdate(){
 		let timeLeft = this.state.timeLeft;
 		timeLeft--;
+		if(timeLeft >= 0){
+			this.setState({
+				timeLeft: timeLeft
+			});
+		} else {
+			this.onTimerComplete();
+		}
+	},
+
+	onTimerComplete(){
 		this.setState({
-			timeLeft: timeLeft
+			timerRunning: false,
+			completed: true,
+			failed: true
 		});
-	}
+	},
 
 });
 
 let Results = React.createClass({
 	render(){
+		let greeting = "Nice Work";
+		if(this.props.failed){
+			greeting = "Nice Try";
+		}
 		return (
 			<div className="col-xs-12">
-				<h1>Nice Work, {this.props.user.name}, let's get your results</h1>
+				<h1><strong>{greeting}, {this.props.user.name}.</strong> let's see how you did.</h1>
 			</div>
 		)
 	}

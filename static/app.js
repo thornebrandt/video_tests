@@ -46192,7 +46192,7 @@
 				state.timer = true;
 				state.timerRunning = false;
 				//state.timeLeft = challenge.limit
-				state.timeLeft = 10;
+				state.timeLeft = 4;
 			}
 
 			return state;
@@ -46202,7 +46202,10 @@
 			return React.createElement(
 				'div',
 				{ className: 'container' },
-				this.state.timer && React.createElement(TestTimer, { onTimerUpdate: this.onTimerUpdate, timerRunning: this.state.timerRunning, timeLeft: this.state.timeLeft }),
+				this.state.timer && React.createElement(TestTimer, {
+					onTimerUpdate: this.onTimerUpdate,
+					timerRunning: this.state.timerRunning,
+					timeLeft: this.state.timeLeft }),
 				React.createElement(
 					'div',
 					{ className: 'r   ow' },
@@ -46300,14 +46303,18 @@
 				null,
 				!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
 				!this.state.completed && this.state.user_id && this.renderTest(),
-				this.state.completed && React.createElement(Results, { user: this.state.user })
+				this.state.completed && React.createElement(Results, {
+					user: this.state.user,
+					failed: this.state.failed
+				})
 			);
 		},
 		renderVideo: function renderVideo() {
 			return React.createElement(VideoContainer, {
 				test: this.state.test,
 				onVideoEvent: this.onVideoEvent,
-				onClose: this.onCloseVideo
+				onClose: this.onCloseVideo,
+				onPlay: this.onPlayVideo
 			});
 		},
 		renderTest: function renderTest() {
@@ -46344,6 +46351,29 @@
 				showVideo: false
 			});
 		},
+		onPlayVideo: function onPlayVideo() {
+			var plays = this.state.plays;
+			plays++;
+			this.setState({
+				plays: plays
+			});
+			if (plays === 1) {
+				//it's the first.
+				this.onFirstPlay();
+			}
+
+			//PSEUDO - REMOVE COIN FROM PLAYS
+		},
+		onFirstPlay: function onFirstPlay() {
+			if (this.state.timer) {
+				this.startTimer();
+			}
+		},
+		startTimer: function startTimer() {
+			this.setState({
+				timerRunning: true
+			});
+		},
 		onReplayVideo: function onReplayVideo() {
 			this.setState({
 				showVideo: true
@@ -46352,8 +46382,19 @@
 		onTimerUpdate: function onTimerUpdate() {
 			var timeLeft = this.state.timeLeft;
 			timeLeft--;
+			if (timeLeft >= 0) {
+				this.setState({
+					timeLeft: timeLeft
+				});
+			} else {
+				this.onTimerComplete();
+			}
+		},
+		onTimerComplete: function onTimerComplete() {
 			this.setState({
-				timeLeft: timeLeft
+				timerRunning: false,
+				completed: true,
+				failed: true
 			});
 		}
 	});
@@ -46361,15 +46402,25 @@
 	var Results = React.createClass({
 		displayName: 'Results',
 		render: function render() {
+			var greeting = "Nice Work";
+			if (this.props.failed) {
+				greeting = "Nice Try";
+			}
 			return React.createElement(
 				'div',
 				{ className: 'col-xs-12' },
 				React.createElement(
 					'h1',
 					null,
-					'Nice Work, ',
-					this.props.user.name,
-					', let\'s get your results'
+					React.createElement(
+						'strong',
+						null,
+						greeting,
+						', ',
+						this.props.user.name,
+						'.'
+					),
+					' let\'s see how you did.'
 				)
 			);
 		}
@@ -62812,6 +62863,7 @@
 					break;
 				case 1:
 					action = "play";
+					this.props.onPlay();
 					break;
 				case 2:
 					action = "pause";
@@ -72565,11 +72617,19 @@
 			timer.clearInterval("countdown_timer");
 			timer.setInterval("countdown_timer", this.props.onTimerUpdate, 1000);
 		},
+		endTimer: function endTimer() {
+			timer.clearInterval("countdown_timer");
+		},
 		render: function render() {
 			if (this.props.timerRunning) {
 				if (!this.timerRunning) {
 					this.startTimer();
 					this.timerRunning = true;
+				}
+			} else {
+				if (this.timerRunning) {
+					this.endTimer();
+					this.timerRunning = false;
 				}
 			}
 			var timeLeft = this.props.timeLeft;

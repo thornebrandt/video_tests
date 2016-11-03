@@ -14,11 +14,20 @@ const TestTimer = React.createClass({
 		);
 	},
 
+	endTimer(){
+		timer.clearInterval("countdown_timer");
+	},
+
 	render(){
 		if(this.props.timerRunning){
 			if(!this.timerRunning){
 				this.startTimer();
 				this.timerRunning = true;
+			}
+		} else {
+			if(this.timerRunning){
+				this.endTimer();
+				this.timerRunning = false;
 			}
 		}
 		let timeLeft = this.props.timeLeft;

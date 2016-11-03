@@ -26589,6 +26589,16 @@
 					'li',
 					null,
 					'Persistent drawing scratchpad. ( Studies have shown drawing is more effective than writing )'
+				),
+				React.createElement(
+					'li',
+					null,
+					'Right now the \'paths\' of the narrative are limited. Allow non-linear branching that stregthens interests'
+				),
+				React.createElement(
+					'li',
+					null,
+					'An Educational \'Choose Your Own Adventure\' that could lead to multiple videos'
 				)
 			)
 		),
@@ -46358,6 +46368,7 @@
 				state.debug = true;
 				state.age = -1;
 				state.user_id = 1;
+				state.showVideo = false;
 			}
 
 			if (challenge.id === "timer") {
@@ -72721,21 +72732,108 @@
 	var ZombieNarrative = React.createClass({
 		displayName: "ZombieNarrative",
 		render: function render() {
+			var greenTheme = {
+				backgroundColor: "#A5D6A7"
+			};
+
 			return React.createElement(
 				"div",
-				{ className: "row" },
-				React.createElement(
-					"div",
-					{ className: "col-xs-12" },
-					React.createElement(
-						"h2",
-						null,
-						"ZombieNarrative"
-					)
-				)
+				{ className: "row", style: greenTheme },
+				this.renderQuestions(this.props.step),
+				";"
 			);
 		},
-		renderQuestions: function renderQuestions(step) {}
+
+
+		//TODO - DEAR GOD HOW HAVE I JUST REALIZED I NEED NON-LINEAR PATHS,
+		// for another day.
+		answers: [1],
+
+		renderQuestions: function renderQuestions(step) {
+			var narrativeText = {
+				fontSize: "20px"
+			};
+
+			var questions = [React.createElement(
+				"div",
+				{ className: "row", style: narrativeText },
+				React.createElement(
+					"div",
+					{ className: "col-xs-5 text-center" },
+					React.createElement("img", { src: '/images/zombie/receptionist.png', className: "img-responsive" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-7 top20" },
+					React.createElement(
+						"h3",
+						null,
+						"You decided to answer the plea video"
+					),
+					React.createElement(
+						"p",
+						null,
+						"You make your way to the scientists underground lair."
+					),
+					React.createElement(
+						"p",
+						null,
+						"There is a mechanical receptionist filing her nails and glaring at you."
+					),
+					React.createElement(
+						"p",
+						null,
+						React.createElement(
+							"strong",
+							null,
+							"\"Appointments Only\""
+						)
+					),
+					React.createElement(
+						"p",
+						null,
+						"She points at a blood soaked sign"
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 0, onClick: this.checkAnswer },
+							"\"I have an appointment.\""
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 1, onClick: this.checkAnswer },
+							"\"I challenge you to a dual!\""
+						)
+					)
+				)
+			)];
+			return questions[step];
+		},
+		checkAnswer: function checkAnswer(e) {
+			//TODO - these can be hashed so as not to be looked up.
+			e.preventDefault();
+			var target = e.target;
+			var answer = target.getAttribute("data-answer");
+			if (parseInt(answer) === parseInt(this.answers[this.props.step])) {
+				this.props.onAnswer(true);
+			} else {
+				this.animateWrongAnswer(target);
+				this.props.onAnswer(false);
+			}
+		},
+		animateWrongAnswer: function animateWrongAnswer(target) {
+			target.classList.remove('failure');
+			setTimeout(function () {
+				target.classList.add('failure');
+			}, 10);
+		}
 	});
 
 	module.exports = ZombieNarrative;

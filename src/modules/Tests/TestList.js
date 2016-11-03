@@ -35,6 +35,8 @@ const hypothesis= (
 					<li>Provide a video effect that 'distorts' the video after every replay</li>
 					<li>Persistent Notes text field</li>
 					<li>Persistent drawing scratchpad. ( Studies have shown drawing is more effective than writing )</li>
+					<li>Right now the 'paths' of the narrative are limited. Allow non-linear branching that stregthens interests</li>
+					<li>An Educational 'Choose Your Own Adventure' that could lead to multiple videos</li>
 				</ul>
 
 		</div>

@@ -212,6 +212,7 @@ let Test = React.createClass({
 			state.debug = true;
 			state.age = -1;
 			state.user_id = 1;
+			state.showVideo = false
 		}
 
 		if(challenge.id === "timer"){

@@ -15,10 +15,12 @@
 ##Logs
 
 1. After you've clicked through and completed a few tests, check out  [http://localhost:3000/api/logs](http://localhost:3000/api/logs)
+2. Try to add a querystring like http://localhost:3000/api/logs?test=zombie
+3. ( More to come )
 
 ## Editing the Tests
 
-1. Question data is is /src/data
+1. Question config data is is /src/data
 2. Chosen tests to include are in an array of video names in /src/modules/Tests/Test.js.
 
 

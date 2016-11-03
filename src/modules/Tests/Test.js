@@ -41,6 +41,7 @@ let Test = React.createClass({
 				age: -1,
 				name: "Debugger"
 			}
+			state.debug = true;
 			state.age = -1;
 			state.user_id = 1;
 		}
@@ -49,7 +50,6 @@ let Test = React.createClass({
 	},
 
 	render(){
-		console.log("this.state.test:", this.state.test);
 		let test = this.state.test;
 		let content;
 		if(this.state.user){
@@ -64,7 +64,11 @@ let Test = React.createClass({
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
 					{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
-					{this.state.user_id && <TestStep test={this.state.test} step={this.state.step} />}
+					{this.state.user_id && <TestStep
+						test={this.state.test}
+						step={this.state.step}
+						onAnswer={this.onAnswer}
+					/>}
 				</div>
 				<hr />
 
@@ -73,13 +77,21 @@ let Test = React.createClass({
 	},
 
 	getUser(user){
-		console.log("setting state: ", user);
 		this.setState({
 			user: user,
 			age: user.age,
 			user_id: user._id
 		});
+	},
+
+	onAnswer(){
+		let currentStep = this.state.step;
+		currentStep++;
+		this.setState({
+			step: currentStep
+		});
 	}
+
 });
 
 module.exports = Test;

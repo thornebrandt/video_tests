@@ -34,7 +34,8 @@ let Test = React.createClass({
 				id: video.id
 			},
 			plays: 0,
-			step: 0
+			step: 0,
+			wrong: 0
 		}
 
 		if(this.props.location.query.debug){
@@ -65,6 +66,7 @@ let Test = React.createClass({
 					<div className="col-xs-12">
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
+					{this.renderWrongAnswers()}
 					{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
 					{!this.state.completed && this.state.user_id && this.renderTest()}
 					{this.state.completed && <Results user={this.state.user}  />}
@@ -93,7 +95,42 @@ let Test = React.createClass({
 			} else {
 				this.progress(currentStep);
 			}
+		} else {
+			this.onWrongAnswer();
 		}
+	},
+
+	onWrongAnswer(){
+		let wrong = this.state.wrong;
+		wrong++;
+		this.setState({
+			wrong: wrong
+		});
+	},
+
+	renderWrongAnswers(){
+		let answers = this.state.wrong || 0;
+		let content = [];
+		let wrongAnswerStyle = {
+			fontSize: "30px",
+			fontWeight: "800",
+			marginLeft: "30px",
+			color: "#F50057"
+		}
+		let spanStyle = {
+			margin : "0px 10px 0px 10px"
+		}
+
+		for(let i = 0; i < answers; i++){
+			content.push(
+				<span key={i} className="glyphicon glyphicon-remove"></span>
+			);
+		}
+		return(
+			<div style={wrongAnswerStyle}>
+				{content}
+			</div>
+		);
 	},
 
 	progress(newStep){
@@ -115,8 +152,7 @@ let Test = React.createClass({
 
 	renderTest(){
 		return <StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
-	}
-
+	},
 
 });
 

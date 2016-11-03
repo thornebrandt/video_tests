@@ -46162,7 +46162,8 @@
 					id: video.id
 				},
 				plays: 0,
-				step: 0
+				step: 0,
+				wrong: 0
 			};
 
 			if (this.props.location.query.debug) {
@@ -46220,6 +46221,7 @@
 							test.challenge.description
 						)
 					),
+					this.renderWrongAnswers(),
 					!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
 					!this.state.completed && this.state.user_id && this.renderTest(),
 					this.state.completed && React.createElement(Results, { user: this.state.user })
@@ -46244,7 +46246,38 @@
 				} else {
 					this.progress(currentStep);
 				}
+			} else {
+				this.onWrongAnswer();
 			}
+		},
+		onWrongAnswer: function onWrongAnswer() {
+			var wrong = this.state.wrong;
+			wrong++;
+			this.setState({
+				wrong: wrong
+			});
+		},
+		renderWrongAnswers: function renderWrongAnswers() {
+			var answers = this.state.wrong || 0;
+			var content = [];
+			var wrongAnswerStyle = {
+				fontSize: "30px",
+				fontWeight: "800",
+				marginLeft: "30px",
+				color: "#F50057"
+			};
+			var spanStyle = {
+				margin: "0px 10px 0px 10px"
+			};
+
+			for (var i = 0; i < answers; i++) {
+				content.push(React.createElement('span', { key: i, className: 'glyphicon glyphicon-remove' }));
+			}
+			return React.createElement(
+				'div',
+				{ style: wrongAnswerStyle },
+				content
+			);
 		},
 		progress: function progress(newStep) {
 			this.setState({
@@ -69442,13 +69475,6 @@
 	var qs = __webpack_require__(632);
 	var StandardTest = React.createClass({
 		displayName: 'StandardTest',
-
-		questions: ["What type of fraud were the detectives investigating?", "What is the date and time of the video detective log?", "How long has the newspaper salesman been selling newspapers?"],
-
-		choices: [["Scalping Tickets at Will Call", "Cheating at a Bike Race", "Car Insurance"], ["Friday, December 12th 10:15pm", "Thursday, August 10th, 9:43am", "Tuesday, October 5th, 10:15pm"], ["Since the Chicago Cubs won a Baseball Pennant", "Since Tuesday", "Since he got into a car accident"]],
-
-		answers: [2, 1, 0],
-
 		render: function render() {
 			this.getQuestions();
 			return React.createElement(

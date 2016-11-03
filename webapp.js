@@ -90,10 +90,27 @@ app.get('*', (req, res) => {
 
 MongoClient.connect('mongodb://localhost/video_tests', (err, dbConnection) => {
 	db = dbConnection;
-	server = app.listen(3000, () =>{
-		let port = server.address().port;
-		console.log("Server started at port: ", port);
-	});
+	if(err){
+		console.log(err);
+		console.log("---");
+		console.log("Hey... you! Did you read the README of the github? Did you install MongoDB on your system?");
+		console.log("---");
+		console.log("type 'mongo --version' to check if it is installed");
+		console.log("^")
+		console.log("^^^")
+		console.log("^^^^^")
+		console.log("^^^^^^^")
+		console.log("^^^^^^^^^^");
+		console.log("^^^^^^^^^^^^");
+		console.log("^^^^LOOK^^^^^");
+		console.log("^^^^^^^^^^^^^^^");
+		console.log(" If it is installed, it needs to be running, via: 'npm run mongo' ");
+	} else {
+		server = app.listen(3000, () =>{
+			let port = server.address().port;
+			console.log("Server started at port: ", port);
+		});
+	}
 });
 
 

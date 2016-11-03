@@ -69529,7 +69529,8 @@
 						length,
 						' )'
 					),
-					choices
+					choices,
+					React.createElement('hr', null)
 				);
 			});
 			return questions[step];
@@ -69537,12 +69538,20 @@
 		checkAnswer: function checkAnswer(e) {
 			//TODO - these can be hashed so as not to be looked up.
 			e.preventDefault();
-			var answer = e.currentTarget.getAttribute("data-answer");
+			var target = e.target;
+			var answer = target.getAttribute("data-answer");
 			if (parseInt(answer) === parseInt(this.answers[this.props.step])) {
 				this.props.onAnswer(true);
 			} else {
+				this.animateWrongAnswer(target);
 				this.props.onAnswer(false);
 			}
+		},
+		animateWrongAnswer: function animateWrongAnswer(target) {
+			target.classList.remove('failure');
+			setTimeout(function () {
+				target.classList.add('failure');
+			}, 10);
 		}
 	});
 

@@ -47,3 +47,65 @@ body{
 .top30 { margin-top:30px; }
 .top100 { margin-top:100px; }
 .top200 { margin-top:200px; }
+
+
+
+
+@-webkit-keyframes redFadeOut{
+    0% {
+      background-color: #F44336;
+    }
+
+    100% {
+    	background-color: white;
+    }
+}
+
+
+@keyframes redFadeOut{
+    0% {
+    	background-color: #F44336;
+    }
+
+    100% {
+    	background-color: white;
+    }
+}
+
+
+
+@-webkit-keyframes greenFadeOut{
+    0% {
+      background-color: $color-green;
+    }
+
+    100% {
+    	background-color: white;
+    }
+}
+
+
+@keyframes greenFadeOut{
+    0% {
+    	background-color: $color-green;
+    }
+
+    100% {
+    	background-color: white;
+    }
+}
+
+
+
+.success{
+    -webkit-animation: greenFadeOut 1.5s 1 linear;
+    animation: greenFadeOut 1.5s 1 linear;
+}
+
+.failure{
+    -webkit-animation: redFadeOut 1.5s 1 linear;
+    animation: redFadeOut 1.5s 1 linear;
+}
+
+
+

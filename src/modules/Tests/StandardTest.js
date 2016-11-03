@@ -44,6 +44,7 @@ let StandardTest = React.createClass({
 				<div key={i} className="top50">
 					<h3>{question} ( {i + 1} of {length} )</h3>
 					{choices}
+					<hr />
 				</div>
 			)
 		});
@@ -53,13 +54,23 @@ let StandardTest = React.createClass({
 	checkAnswer(e){
 		//TODO - these can be hashed so as not to be looked up.
 		e.preventDefault();
-		let answer = e.currentTarget.getAttribute("data-answer");
+		let target = e.target;
+		let answer = target.getAttribute("data-answer");
 		if(parseInt(answer) === parseInt(this.answers[this.props.step])){
 			this.props.onAnswer(true);
 		} else {
+			this.animateWrongAnswer(target);
 			this.props.onAnswer(false);
 		}
 	},
+
+	animateWrongAnswer(target){
+		target.classList.remove('failure');
+		setTimeout(() => {
+			target.classList.add('failure');
+		}, 10);
+	}
+
 
 });
 

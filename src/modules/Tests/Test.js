@@ -4,8 +4,8 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const _ = require('underscore');
 const test_options = require('../../data/test-options');
-const TestStep = require('./TestStep');
 const UserCreation = require('../User/UserCreation');
+const StandardTest = require('./StandardTest');
 
 let Test = React.createClass({
 	getInitialState(){
@@ -13,6 +13,7 @@ let Test = React.createClass({
 	},
 
 	getTest(){
+		//TODO - videos might need to be renamed to tests.
 		const videos = ['mathnet', 'zombie'];
 		const types = ['standard', 'narrative'];
 		const challenges = ['none', 'timer', 'plays'];
@@ -30,6 +31,7 @@ let Test = React.createClass({
 				},
 				type: type,
 				challenge: challenge,
+				id: video.id
 			},
 			plays: 0,
 			step: 0
@@ -64,11 +66,7 @@ let Test = React.createClass({
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
 					{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
-					{this.state.user_id && <TestStep
-						test={this.state.test}
-						step={this.state.step}
-						onAnswer={this.onAnswer}
-					/>}
+					{this.renderTest()}
 				</div>
 				<hr />
 
@@ -84,14 +82,24 @@ let Test = React.createClass({
 		});
 	},
 
-	onAnswer(){
-		let currentStep = this.state.step;
-		currentStep++;
-		this.setState({
-			step: currentStep
-		});
-	}
+	onAnswer(correct){
+		console.log("on answer?", correct);
+		if(correct){
+			let currentStep = this.state.step;
+			currentStep++;
+			this.setState({
+				step: currentStep
+			});
+			console.log("huh??", this.state.step);
+		}
+	},
 
+	renderTest(){
+		return <StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer}/>
+	}
 });
+
+
+
 
 module.exports = Test;

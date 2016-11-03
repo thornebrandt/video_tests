@@ -1,6 +1,7 @@
 const test_options = {
 	videos: {
 		'mathnet': {
+			id: 'mathnet',
 			title: 'Mathnet',
 			url: 'myhppg70ljI',
 			description: "Highly produced PBS clip from 90's about Math Crimes.",
@@ -11,23 +12,24 @@ const test_options = {
 			},
 			challenges: {
 				timer: {
-					key: "timer",
+					id: "timer",
 					description: "15 min. total time limit.",
 					limit: 900000
 				},
 				plays: {
-					key: "plays",
+					id: "plays",
 					description: "Only 3 plays allowed.",
 					limit: 3
 				},
 				none: {
-					key: "none",
+					id: "none",
 					description: "No time limit.",
 					limit: 0
 				}
 			}
 		},
 		'zombie' : {
+			id: 'zombie',
 			title: 'Zombie Antidote*',
 			url: 'ATxR32WGvJ0',
 			description: "Cartoon plea to prevent human extinction against zombie uprising.",
@@ -41,17 +43,17 @@ const test_options = {
 				timer: {
 					description: "3 minute video. 6 minute time limit.",
 					limit: 360000,
-					key: "timer"
+					id: "timer"
 				},
 				plays: {
 					description: "Only 3 video plays allowed.",
 					limit: 3,
-					key: "plays"
+					id: "plays"
 				},
 				none: {
 					description: "No time limit.",
 					limit: 0,
-					key: "none"
+					id: "none"
 				}
 			}
 		}
@@ -60,6 +62,7 @@ const test_options = {
 		standard : {
 			title : 'Standard',
 			description : 'Standard multiple choice. (Control)',
+			length: 3,
 			style: {
 				background: '#CCCCCC',
 				color: 'black',
@@ -69,6 +72,7 @@ const test_options = {
 		},
 		narrative: {
 			title: 'Narrative*',
+			length: 3,
 			description: 'Become part of the plot. Visual Puzzles. Save characters.',
 			style: {
 				background: '#c0392b',

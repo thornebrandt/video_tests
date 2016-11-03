@@ -1,2 +1,0 @@
-let zombie_narrative = [
-];

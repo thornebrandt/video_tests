@@ -45995,6 +45995,7 @@
 	var test_options = {
 		videos: {
 			'mathnet': {
+				id: 'mathnet',
 				title: 'Mathnet',
 				url: 'myhppg70ljI',
 				description: "Highly produced PBS clip from 90's about Math Crimes.",
@@ -46005,23 +46006,24 @@
 				},
 				challenges: {
 					timer: {
-						key: "timer",
+						id: "timer",
 						description: "15 min. total time limit.",
 						limit: 900000
 					},
 					plays: {
-						key: "plays",
+						id: "plays",
 						description: "Only 3 plays allowed.",
 						limit: 3
 					},
 					none: {
-						key: "none",
+						id: "none",
 						description: "No time limit.",
 						limit: 0
 					}
 				}
 			},
 			'zombie': {
+				id: 'zombie',
 				title: 'Zombie Antidote*',
 				url: 'ATxR32WGvJ0',
 				description: "Cartoon plea to prevent human extinction against zombie uprising.",
@@ -46035,17 +46037,17 @@
 					timer: {
 						description: "3 minute video. 6 minute time limit.",
 						limit: 360000,
-						key: "timer"
+						id: "timer"
 					},
 					plays: {
 						description: "Only 3 video plays allowed.",
 						limit: 3,
-						key: "plays"
+						id: "plays"
 					},
 					none: {
 						description: "No time limit.",
 						limit: 0,
-						key: "none"
+						id: "none"
 					}
 				}
 			}
@@ -46054,6 +46056,7 @@
 			standard: {
 				title: 'Standard',
 				description: 'Standard multiple choice. (Control)',
+				length: 3,
 				style: {
 					background: '#CCCCCC',
 					color: 'black',
@@ -46063,6 +46066,7 @@
 			},
 			narrative: {
 				title: 'Narrative*',
+				length: 3,
 				description: 'Become part of the plot. Visual Puzzles. Save characters.',
 				style: {
 					background: '#c0392b',
@@ -46128,8 +46132,8 @@
 	var ReactDOM = __webpack_require__(34);
 	var _ = __webpack_require__(520);
 	var test_options = __webpack_require__(479);
-	var TestStep = __webpack_require__(521);
 	var UserCreation = __webpack_require__(523);
+	var StandardTest = __webpack_require__(634);
 
 	var Test = React.createClass({
 		displayName: 'Test',
@@ -46137,6 +46141,7 @@
 			return this.getTest();
 		},
 		getTest: function getTest() {
+			//TODO - videos might need to be renamed to tests.
 			var videos = ['mathnet', 'zombie'];
 			var types = ['standard', 'narrative'];
 			var challenges = ['none', 'timer', 'plays'];
@@ -46153,7 +46158,8 @@
 
 					},
 					type: type,
-					challenge: challenge
+					challenge: challenge,
+					id: video.id
 				},
 				plays: 0,
 				step: 0
@@ -46215,11 +46221,7 @@
 						)
 					),
 					!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
-					this.state.user_id && React.createElement(TestStep, {
-						test: this.state.test,
-						step: this.state.step,
-						onAnswer: this.onAnswer
-					})
+					this.renderTest()
 				),
 				React.createElement('hr', null)
 			);
@@ -46231,12 +46233,19 @@
 				user_id: user._id
 			});
 		},
-		onAnswer: function onAnswer() {
-			var currentStep = this.state.step;
-			currentStep++;
-			this.setState({
-				step: currentStep
-			});
+		onAnswer: function onAnswer(correct) {
+			console.log("on answer?", correct);
+			if (correct) {
+				var currentStep = this.state.step;
+				currentStep++;
+				this.setState({
+					step: currentStep
+				});
+				console.log("huh??", this.state.step);
+			}
+		},
+		renderTest: function renderTest() {
+			return React.createElement(StandardTest, { test: this.state.test, step: this.state.step, onAnswer: this.onAnswer });
 		}
 	});
 
@@ -54512,99 +54521,8 @@
 
 
 /***/ },
-/* 521 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var MathStandard = __webpack_require__(522);
-	var TestStep = React.createClass({
-		displayName: 'TestStep',
-		render: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'row' },
-				React.createElement(
-					'div',
-					{ className: 'col-xs-12' },
-					React.createElement(MathStandard, { step: this.props.step, onAnswer: this.props.onAnswer })
-				)
-			);
-		}
-	});
-
-	module.exports = TestStep;
-
-/***/ },
-/* 522 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(1);
-	var MathStandard = React.createClass({
-		displayName: "MathStandard",
-
-		questions: ["What type of fraud were the detectives investigating?", "What is the date and time of the video detective log?", "How long has the newspaper salesman been selling newspapers?"],
-
-		choices: [["Scalping Tickets at Will Call", "Cheating at a Bike Race", "Car Insurance"], ["Friday, December 12th 10:15pm", "Thursday, August 10th, 9:43am", "Tuesday, October 5th, 10:15pm"], ["Since the Chicago Cubs won a Baseball Pennant", "Since Tuesday", "Since he got into a car accident"]],
-
-		answers: [2, 1, 0],
-
-		renderQuestions: function renderQuestions(step) {
-			var _this = this;
-
-			var length = this.questions.length;
-			var questions = this.questions.map(function (question, i) {
-				var choices = _this.choices[i].map(function (choice, j) {
-					return React.createElement(
-						"div",
-						{ key: j, className: "col-xs-4 text-center top20" },
-						React.createElement(
-							"a",
-							{ href: "#", className: "btn btn-default", "data-value": j, onClick: _this.checkAnswer },
-							choice
-						)
-					);
-				});
-
-				return React.createElement(
-					"div",
-					{ key: i, className: "top50" },
-					React.createElement(
-						"h3",
-						null,
-						question,
-						" ( ",
-						i + 1,
-						" of ",
-						length,
-						" )"
-					),
-					choices
-				);
-			});
-			return questions[step];
-		},
-		checkAnswer: function checkAnswer(e) {
-			//TODO - these can be hashed so as not to be looked up.
-			e.preventDefault();
-			var answer = e.currentTarget.getAttribute("data-answer");
-			if (answer === this.answers[this.props.step]) {
-				this.props.onAnswer(true);
-			} else {
-				this.props.onAnswer(false);
-			}
-		},
-		render: function render() {
-			return this.renderQuestions([this.props.step]);
-		}
-	});
-
-	module.exports = MathStandard;
-
-/***/ },
+/* 521 */,
+/* 522 */,
 /* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -69482,6 +69400,117 @@
 		}]
 	};
 	module.exports = fake_all_sessions;
+
+/***/ },
+/* 633 */,
+/* 634 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var qs = __webpack_require__(635);
+	var StandardTest = React.createClass({
+		displayName: 'StandardTest',
+
+		questions: ["What type of fraud were the detectives investigating?", "What is the date and time of the video detective log?", "How long has the newspaper salesman been selling newspapers?"],
+
+		choices: [["Scalping Tickets at Will Call", "Cheating at a Bike Race", "Car Insurance"], ["Friday, December 12th 10:15pm", "Thursday, August 10th, 9:43am", "Tuesday, October 5th, 10:15pm"], ["Since the Chicago Cubs won a Baseball Pennant", "Since Tuesday", "Since he got into a car accident"]],
+
+		answers: [2, 1, 0],
+
+		render: function render() {
+			this.getQuestions();
+			return React.createElement(
+				'div',
+				{ className: 'row' },
+				React.createElement(
+					'div',
+					{ className: 'col-xs-12' },
+					this.renderQuestions([this.props.step])
+				)
+			);
+		},
+		getQuestions: function getQuestions() {
+			var test_id = this.props.test.id;
+			this.questions = qs[test_id].questions;
+			this.choices = qs[test_id].choices;
+			this.answers = qs[test_id].answers;
+		},
+		renderQuestions: function renderQuestions(step) {
+			var _this = this;
+
+			//TODO - make column width variable to length of answers
+			var length = this.questions.length;
+			var questions = this.questions.map(function (question, i) {
+				var choices = _this.choices[i].map(function (choice, j) {
+					return React.createElement(
+						'div',
+						{ key: j, className: 'col-xs-4 text-center top20' },
+						React.createElement(
+							'a',
+							{ href: '#', className: 'btn btn-default', 'data-answer': j, onClick: _this.checkAnswer },
+							choice
+						)
+					);
+				});
+
+				return React.createElement(
+					'div',
+					{ key: i, className: 'top50' },
+					React.createElement(
+						'h3',
+						null,
+						question,
+						' ( ',
+						i + 1,
+						' of ',
+						length,
+						' )'
+					),
+					choices
+				);
+			});
+			return questions[step];
+		},
+		checkAnswer: function checkAnswer(e) {
+			//TODO - these can be hashed so as not to be looked up.
+			e.preventDefault();
+			var answer = e.currentTarget.getAttribute("data-answer");
+			if (parseInt(answer) === parseInt(this.answers[this.props.step])) {
+				this.props.onAnswer(true);
+			} else {
+				this.props.onAnswer(false);
+			}
+		}
+	});
+
+	module.exports = StandardTest;
+
+/***/ },
+/* 635 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var test_questions = {
+		mathnet: {
+			questions: ["What type of fraud were the detectives investigating?", "What is the date and time of the video detective log?", "How long has the newspaper salesman been selling newspapers?"],
+
+			choices: [["Scalping Tickets at Will Call", "Cheating at a Bike Race", "Car Insurance"], ["Friday, December 12th 10:15pm", "Thursday, August 10th, 9:43am", "Tuesday, October 5th, 10:15pm"], ["Since the Chicago Cubs won a Baseball Pennant", "Since Tuesday", "Since he got into a car accident"]],
+
+			answers: [2, 1, 0]
+		},
+		zombie: {
+			questions: ["What is the largest flower in the world?", "How did the Corpse Flower get it's name?", "What would you play next if you just beat the robot's first round?"],
+
+			choices: [["Elephant Flower", "Corpse Flower", "Spanish Dagger"], ["It smells like rotting flesh", "It looks like a corpse", "It grows on or around corpses"], ["Rock", "Paper", "Scissors"]],
+
+			answers: [1, 0, 2]
+		}
+	};
+
+	module.exports = test_questions;
 
 /***/ }
 /******/ ]);

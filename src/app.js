@@ -44,17 +44,26 @@ class PageNotFound extends React.Component {
 }
 
 const App = React.createClass({
-	onHomeClickHandler(e){
+	onHomeLinkClickHandler(e){
 		e.preventDefault();
 		browserHistory.push('/');
 	},
+
+	onTestClickHandler(e){
+		e.preventDefault();
+		browserHistory.push('/test');
+	},
+
 
 	render(){
 		return (
 			<div>
 				<div className="nav">
-					<a className="btn" onClick={this.onHomeClickHandler}>Home</a>
+					<a className="btn" href="/" onClick={this.onHomeLinkClickHandler}>Home</a>
+					<Link className="btn" to="/tests">About</Link>
+					<a className="btn" href='/test' onClick={this.onLinkClickHandler}>New Random Test</a>
 					<div className="pull-right">
+						<Link className="btn" to="/admin">Admin</Link>
 					</div>
 				</div>
 				{!this.props.children && <IndexClass />}

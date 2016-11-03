@@ -28,11 +28,13 @@ const hypothesis= (
 					treated delicately.
 				</p>
 				<p>
-					Other suggestions:
-					<ul>Persistent Notepad</ul>
-					<ul>Allow the purchase of a 'play' with points</ul>
-					<ul>Provide a video effect that 'distorts' the video</ul>
+					<strong>Other suggestions:</strong>
 				</p>
+				<ul>
+					<li>Allow the <i>purchase</i> of a 'replay' with points</li>
+					<li>Provide a video effect that 'distorts' the video after every replay</li>
+					<li>Persistent Notepad</li>
+				</ul>
 
 		</div>
 		<div className="row">
@@ -56,7 +58,7 @@ let TestList = React.createClass({
 				<VideoChoice video={this.state.video} chooseVideo={this.chooseVideo} />
 				{this.state.video && <TypeChoice type={this.state.type} chooseType={this.chooseType} />}
 				{this.state.type && <ChallengeChoice challenge={this.state.challenge} chooseChallenge={this.chooseChallenge} />}
-				{this.state.challenge && <StartTest props={this.state} onStartTest={this.onStartTest} />}
+				{this.state.challenge && <StartTest video={this.state.video} type={this.state.type} challenge={this.state.challenge} />}
 				<footer className="pull-right"><small>*suggested ( hypothesized improvement in retention )</small></footer>
 			</div>
 		)
@@ -78,20 +80,8 @@ let TestList = React.createClass({
 		this.setState({
 			challenge: challenge
 		});
-	},
-
-	onStartTest(){
-		let test = this.state;
-		this.props.onStartTest(test);
-		// return render(
-		// 	(
-		// 		<div className="container">
-		// 			<h1>how you like me now</h1>
-		// 		</div>
-		// 	),
-		// 	document.getElementById('main')
-		// )
 	}
+
 });
 
 
@@ -241,9 +231,10 @@ let ChallengeChoice = React.createClass({
 
 let StartTest = React.createClass({
 	render(){
+		let testLink = "/test/" + this.props.video +"?type=" + this.props.type + "&challenge=" + this.props.challenge;
 		return(
 			<div className="row text-center top-buffer">
-				<button className="btn btn-primary top30" onClick={this.props.onStartTest}>Take that Test</button>
+				<Link to={testLink} className="btn btn-primary top30">Take that Test</Link>
 			</div>
 		);
 	}

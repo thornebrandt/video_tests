@@ -3,9 +3,9 @@ import YoutubePlayer from 'react-youtube-player';
 const React = require('react');
 const ReactDOM = require('react-dom');
 const _ = require('underscore');
-const moment = require('moment');
 const test_options = require('../../data/test-options');
 const TestStep = require('./TestStep');
+const UserCreation = require('../User/UserCreation');
 
 let Test = React.createClass({
 	getInitialState(){
@@ -38,7 +38,7 @@ let Test = React.createClass({
 	},
 
 	render(){
-		console.log(this.state.test);
+		console.log("this.state.test:", this.state.test);
 		let test = this.state.test;
 		let content;
 		if(this.state.user){
@@ -52,12 +52,11 @@ let Test = React.createClass({
 					<div className="col-xs-12">
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
+					{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
+					{this.state.user_id && <TestStep test={this.state.test} step={this.state.step} />}
 				</div>
 				<hr />
-				{!this.state.user && !this.state.foundUser && <UserAdd addUser={this.addUser}/>}
-				{this.state.foundUser && <CheckUser foundUser={this.state.foundUser} addUser={this.addUser} useFoundUser={this.useFoundUser} />}
-				{this.state.user && !this.state.age && <AgeAdd addAge={this.addAge} user={this.state.user} />}
-				{this.state.age && <TestStep test={this.state.test} step={this.state.step} />}
+
 			</div>
 		);
 	},
@@ -112,15 +111,12 @@ let Test = React.createClass({
 	},
 
 
-	getUser(name){
-		return fetch('/api/users/' + name)
-		.then((response) => response.json())
-		.then((data) => {
-			console.log("got user: ", data);
-			return data;
-		})
-		.catch((error) => {
-			console.log("can't find dude", error);
+	getUser(user){
+		console.log("setting state: ", user);
+		this.setState({
+			user: user,
+			age: user.age,
+			user_id: user._id
 		});
 	}
 });
@@ -133,112 +129,6 @@ let Step = React.createClass({
 			<div><h1>Step 1</h1></div>
 		)
 	}
-});
-
-
-
-let AgeAdd = React.createClass({
-	render(){
-		return(
-			<form name="addAgeForm" onSubmit={this.onAddAge} >
-				<div className="row top100">
-					<div className="col-xs-12">
-						<span className='large-text'>
-							And how <strong>old</strong> are you, <strong>{this.props.user.name}</strong>?
-						</span>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-xs-10">
-						<input type="text" className="form-control" name="age" type="number"
-						placeholder="e.g. 12" min="2" max="175" autoComplete="off" required />
-					</div>
-					<div className="col-xs-2">
-						<button className="btn btn-primary">Submit</button>
-					</div>
-				</div>
-			</form>
-		)
-	},
-
-	onAddAge(e){
-		e.preventDefault();
-		let form = document.forms.addAgeForm;
-		console.log("onAddAge: ", this.session);
-		this.props.addAge({
-			age: form.age.value,
-		});
-	}
-});
-
-
-
-let UserAdd = React.createClass({
-	render(){
-		return(
-			<form name="addUserForm" onSubmit={this.onAddUser}>
-				<div className="row top100">
-					<div className="col-xs-12">
-						<span className='large-text'>Before we begin, what is your <b>name</b>?</span>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-xs-10">
-						<input type="text" className="form-control" name="name" placeholder="Name: " autoComplete="off" required />
-					</div>
-					<div className="col-xs-2">
-						<button className="btn btn-primary">Submit</button>
-					</div>
-				</div>
-			</form>
-		)
-	},
-
-	onAddUser(e){
-		e.preventDefault();
-		let form = document.forms.addUserForm;
-		this.props.addUser({
-			name: form.name.value,
-			created: new Date()
-		});
-	}
-});
-
-
-let CheckUser = React.createClass({
-	render(){
-		let ago = new moment(this.props.foundUser.created).fromNow();
-		return(
-			<div className="row top100">
-				<div className="col-xs-12">
-					<span className='large-text'>Are you <strong>{this.props.foundUser.age} years old</strong>, and did you sign up <strong>{ago}</strong> ?</span>
-				</div>
-				<div className="row">
-					<div className="col-xs-3">
-						<button className="btn btn-success" onClick={this.props.useFoundUser}>Yep, That's Me!</button>
-					</div>
-					<form name="addUserForm" className="col-xs-6 pull-right" onSubmit={this.onAddUser}>
-						<div className="col-xs-9">
-							<input type="text" className="form-control" name="name" placeholder="No, I'll try a different name: " autoComplete="off" required />
-						</div>
-						<div className="col-xs-2">
-							<button className="btn btn-warning">New Login</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		);
-	},
-
-	onAddUser(e){
-		e.preventDefault();
-		let form = document.forms.addUserForm;
-		this.props.addUser({
-			name: form.name.value,
-			created: new Date()
-		});
-	},
-
 });
 
 

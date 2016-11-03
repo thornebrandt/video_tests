@@ -174,7 +174,9 @@ let Test = React.createClass({
 	renderQuestions(){
 		return (
 			<div>
-				<a className="btn btn-danger" onClick={this.onReplayVideo}>Replay Video</a>
+				<a className="btn large-text" onClick={this.onReplayVideo}>
+					<span className="glyphicon glyphicon-film"> </span> - Replay Video
+				</a>
 				<StandardTest test={this.state.test} step={this.state.step} onAnswer={this.onAnswer} getLength={this.getLength} />
 			</div>
 		);

@@ -46312,8 +46312,13 @@
 				null,
 				React.createElement(
 					'a',
-					{ className: 'btn btn-danger', onClick: this.onReplayVideo },
-					'Replay Video'
+					{ className: 'btn large-text', onClick: this.onReplayVideo },
+					React.createElement(
+						'span',
+						{ className: 'glyphicon glyphicon-film' },
+						' '
+					),
+					' - Replay Video'
 				),
 				React.createElement(StandardTest, { test: this.state.test, step: this.state.step, onAnswer: this.onAnswer, getLength: this.getLength })
 			);

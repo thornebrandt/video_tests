@@ -114,7 +114,23 @@ let Test = React.createClass({
 	log(action, _log={}){
 		//TODO - try ellipses syntax here ( es2017 ) ?
 		let log = Object.assign({ action: action, timestamp: new Date() }, _log, this.state);
-		console.log("sending this: ", log);
+		return fetch('/api/logs', {
+			method: 'POST',
+			body: JSON.stringify(log),
+			mode: 'cors',
+			headers: new Headers({
+				'Content-Type': 'application/json'
+			})
+		}).then((response) => response.json())
+		.then((data) => {
+			console.log("posted log: ", data);
+			// let dude = data;
+			// let dudesModified = this.state.dudes.concat(dude);
+			// this.setState({dudes: dudesModified});
+		})
+		.catch((error) => {
+			console.log("error posting log ", error);
+		});
 	},
 
 	checkUserFocus(){

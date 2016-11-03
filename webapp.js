@@ -9,27 +9,38 @@ let server;
 app.use(express.static('static'));
 app.use(bodyParser.json());
 
-
-/*get all dudes*/
-app.get('/api/sessions', (req, res) =>{
-	let filter = {};
-	// if(req.query.age){
-	// 	filter.age = { $gte: parseInt(req.query.age) };
-	// }
-	// if(req.query.name){
-	// 	let reg = /.*/;
-	// 	filter.name = new RegExp(reg.source + req.query.name + reg.source, 'i');
-	// }
-	db.collection("sessions").find(filter).toArray((err, docs) => {
+/*Get all logs for a user */
+app.get('/api/:user_id/logs/', (req, res) => {
+	db.collection("logs").find({user_id : req.params.user_id}).toArray((err, docs) => {
 		res.json(docs);
 	});
 });
 
-/*Get all posts made by dude*/
-app.get('/api/posts/:dude_id', (req, res) => {
-	let dude_id = req.params.dude_id;
-	db.collection("post").find({dude_id : req.params.dude_id}).toArray((err, docs) => {
+/*get all logs*/
+app.get('/api/logs', (req, res) =>{
+	let filter = {};
+	if(req.query.type){
+		filter['test.type'] = req.query.type;
+	}
+	if(req.query.test){
+		filter['test.id'] = req.query.test;
+	}
+	if(req.query.age){
+		filter.age = req.query.age
+	}
+	db.collection("logs").find(filter).toArray((err, docs) => {
 		res.json(docs);
+	});
+});
+
+/*Create a log*/
+app.post('/api/logs', (req, res) => {
+	let newLog = req.body;
+	db.collection("logs").insertOne(newLog, (err, result) => {
+		let newID = result.insertedId;
+		db.collection("logs").find({_id: newID}).next((err, doc) => {
+			res.json(doc);
+		});
 	});
 });
 
@@ -108,6 +119,7 @@ MongoClient.connect('mongodb://localhost/video_tests', (err, dbConnection) => {
 		server = app.listen(3000, () =>{
 			let port = server.address().port;
 			console.log("Server started at port: ", port);
+			console.log("Thanks for installing mongo! ;)");
 			console.log("-----");
 			console.log("Don't just stand there! Open up http://localhost:3000/ in Chrome");
 		});

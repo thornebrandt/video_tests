@@ -6,6 +6,8 @@ const test_options = require('../../data/test-options');
 const UserCreation = require('../User/UserCreation');
 const StandardTest = require('./StandardTest');
 const VideoContainer = require('./VideoContainer');
+const TestTimer = require('./TestTimer');
+const moment = require('moment');
 
 let Test = React.createClass({
 	getInitialState(){
@@ -36,7 +38,9 @@ let Test = React.createClass({
 			plays: 0,
 			step: 0,
 			wrong: 0,
-			showVideo: true
+			showVideo: true,
+			timerRunning: false,
+			timeLeft: 1000
 		}
 
 		if(this.props.location.query.debug){
@@ -50,6 +54,13 @@ let Test = React.createClass({
 			state.user_id = 1;
 		}
 
+		if(challenge.id === "timer"){
+			state.timer = true;
+			state.timerRunning = false;
+			//state.timeLeft = challenge.limit
+			state.timeLeft = 10;
+		}
+
 		return state;
 	},
 
@@ -57,7 +68,8 @@ let Test = React.createClass({
 		let test = this.state.test;
 		return (
 			<div className="container">
-				<div className="row">
+				{this.state.timer && <TestTimer onTimerUpdate={this.onTimerUpdate} timerRunning={this.state.timerRunning} timeLeft={this.state.timeLeft}/>}
+				<div className="r   ow">
 					<div className="col-xs-12">
 						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
 					</div>
@@ -164,9 +176,10 @@ let Test = React.createClass({
 	},
 
 	renderTest(){
-		return (<div>
-			{this.state.showVideo && this.renderVideo()}
-			{!this.state.showVideo && this.renderQuestions()}
+		return (
+			<div>
+				{this.state.showVideo && this.renderVideo()}
+				{!this.state.showVideo && this.renderQuestions()}
 			</div>
 		);
 	},
@@ -183,7 +196,7 @@ let Test = React.createClass({
 	},
 
 	onVideoEvent(event){
-		//LOG THIS
+		//For Logging
 		console.log("video event: ", event);
 	},
 
@@ -197,8 +210,15 @@ let Test = React.createClass({
 		this.setState({
 			showVideo: true
 		});
-	}
+	},
 
+	onTimerUpdate(){
+		let timeLeft = this.state.timeLeft;
+		timeLeft--;
+		this.setState({
+			timeLeft: timeLeft
+		});
+	}
 
 });
 
@@ -211,5 +231,6 @@ let Results = React.createClass({
 		)
 	}
 });
+
 
 module.exports = Test;

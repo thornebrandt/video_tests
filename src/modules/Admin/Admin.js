@@ -10,6 +10,11 @@ let Admin = React.createClass({
 			<div>
 				<div className="jumbotron text-center">
 						<h1 className="text-center">Admin</h1>
+						<h4><Link to="/tests/">Test Info/Hypothesises</Link></h4>
+						TODO: make graphs and comparison.
+						<br />
+						<h4><a href={'/api/logs'}>Logs</a></h4>
+
 				</div>
 			</div>
 		);

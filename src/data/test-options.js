@@ -35,7 +35,7 @@ const test_options = {
 			description: "Cartoon plea to prevent human extinction against zombie uprising.",
 			suggested: true,
 			style: {
-				background: '#3B532',
+				background: '#1B5E20',
 				color: '#C5E3BF',
 				borderRadius: '5px'
 			},

@@ -21,7 +21,7 @@ const IndexClass = React.createClass({
 							<h3>Admin</h3>
 							<hr />
 							<Link className="btn" to="/tests/">Info about tests</Link><br />
-							<Link className="btn" to="/admin/">See Data</Link>
+							<Link className="btn" to="/api/logs">See Data</Link>
 						</div>
 					</div>
 				</div>

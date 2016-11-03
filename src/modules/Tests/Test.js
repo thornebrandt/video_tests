@@ -2,6 +2,7 @@ import 'whatwg-fetch';
 const React = require('react');
 const ReactDOM = require('react-dom');
 const _ = require('underscore');
+const Link = require('react-router').Link;
 const test_options = require('../../data/test-options');
 const UserCreation = require('../User/UserCreation');
 const StandardTest = require('./StandardTest');
@@ -44,8 +45,7 @@ let Test = React.createClass({
 				{!this.state.user_id && <UserCreation user={this.state.user} getUser={this.getUser}/>}
 				{!this.state.completed && this.state.user_id && this.renderTest()}
 				{this.state.completed && <Results
-											user={this.state.user}
-											failed={this.state.failed}
+											results={this.state}
 										 />}
 
 			</div>
@@ -121,12 +121,6 @@ let Test = React.createClass({
 			headers: new Headers({
 				'Content-Type': 'application/json'
 			})
-		}).then((response) => response.json())
-		.then((data) => {
-			console.log("posted log: ", data);
-			// let dude = data;
-			// let dudesModified = this.state.dudes.concat(dude);
-			// this.setState({dudes: dudesModified});
 		})
 		.catch((error) => {
 			console.log("error posting log ", error);
@@ -302,7 +296,12 @@ let Test = React.createClass({
 			});
 			this.log("completed", { test_duration: test_duration });
 		} else {
-			console.log("Error, there was no test start");
+			//debug or error.
+			console.log("That's odd, there was no test start.");
+			this.setState({
+				completed: true,
+				test_duration: 15000
+			});
 		}
 	},
 
@@ -389,13 +388,21 @@ let Test = React.createClass({
 
 let Results = React.createClass({
 	render(){
+		//TODO - save this for smaller logs 'results', made for comparisons
+
+		console.log("results: ", this.props.results);
 		let greeting = "Nice Work";
-		if(this.props.failed){
+		if(this.props.results.failed){
 			greeting = "Nice Try";
 		}
+		let user = this.props.results.user;
+		let logsLink = "/api/" + user._id + "/logs";
 		return (
 			<div className="col-xs-12">
-				<h1><strong>{greeting}, {this.props.user.name}.</strong> let's see how you did.</h1>
+				<h1><strong>{greeting}, {user.name}.</strong> let's see how you did.</h1>
+				<h3>Time Spent: {this.props.results.test_duration}</h3>
+				<h3>Wrong Answers: {this.props.results.wrong}</h3>
+				<a href={logsLink}>User Logs</a>
 			</div>
 		)
 	}

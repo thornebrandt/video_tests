@@ -116,7 +116,7 @@
 							_react2.default.createElement('br', null),
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ className: 'btn', to: '/admin/' },
+								{ className: 'btn', to: '/api/logs' },
 								'See Data'
 							)
 						)
@@ -46050,7 +46050,7 @@
 				description: "Cartoon plea to prevent human extinction against zombie uprising.",
 				suggested: true,
 				style: {
-					background: '#3B532',
+					background: '#1B5E20',
 					color: '#C5E3BF',
 					borderRadius: '5px'
 				},
@@ -46146,6 +46146,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	var _ = __webpack_require__(481);
+	var Link = __webpack_require__(172).Link;
 	var test_options = __webpack_require__(479);
 	var UserCreation = __webpack_require__(482);
 	var StandardTest = __webpack_require__(590);
@@ -46204,8 +46205,7 @@
 				!this.state.user_id && React.createElement(UserCreation, { user: this.state.user, getUser: this.getUser }),
 				!this.state.completed && this.state.user_id && this.renderTest(),
 				this.state.completed && React.createElement(Results, {
-					user: this.state.user,
-					failed: this.state.failed
+					results: this.state
 				})
 			);
 		},
@@ -46283,13 +46283,6 @@
 				headers: new Headers({
 					'Content-Type': 'application/json'
 				})
-			}).then(function (response) {
-				return response.json();
-			}).then(function (data) {
-				console.log("posted log: ", data);
-				// let dude = data;
-				// let dudesModified = this.state.dudes.concat(dude);
-				// this.setState({dudes: dudesModified});
 			}).catch(function (error) {
 				console.log("error posting log ", error);
 			});
@@ -46449,7 +46442,12 @@
 				});
 				this.log("completed", { test_duration: test_duration });
 			} else {
-				console.log("Error, there was no test start");
+				//debug or error.
+				console.log("That's odd, there was no test start.");
+				this.setState({
+					completed: true,
+					test_duration: 15000
+				});
 			}
 		},
 		getLength: function getLength(length) {
@@ -46526,10 +46524,15 @@
 	var Results = React.createClass({
 		displayName: 'Results',
 		render: function render() {
+			//TODO - save this for smaller logs 'results', made for comparisons
+
+			console.log("results: ", this.props.results);
 			var greeting = "Nice Work";
-			if (this.props.failed) {
+			if (this.props.results.failed) {
 				greeting = "Nice Try";
 			}
+			var user = this.props.results.user;
+			var logsLink = "/api/" + user._id + "/logs";
 			return React.createElement(
 				'div',
 				{ className: 'col-xs-12' },
@@ -46541,10 +46544,27 @@
 						null,
 						greeting,
 						', ',
-						this.props.user.name,
+						user.name,
 						'.'
 					),
 					' let\'s see how you did.'
+				),
+				React.createElement(
+					'h3',
+					null,
+					'Time Spent: ',
+					this.props.results.test_duration
+				),
+				React.createElement(
+					'h3',
+					null,
+					'Wrong Answers: ',
+					this.props.results.wrong
+				),
+				React.createElement(
+					'a',
+					{ href: logsLink },
+					'User Logs'
 				)
 			);
 		}
@@ -72749,6 +72769,11 @@
 		// for another day.
 		answers: [1],
 
+		//TODO - inheritance seems like it might work well here.
+		setLength: function setLength(length) {
+			this.length = length;
+			this.props.getLength(length);
+		},
 		renderQuestions: function renderQuestions(step) {
 			var narrativeText = {
 				fontSize: "20px"
@@ -72760,7 +72785,7 @@
 				React.createElement(
 					"div",
 					{ className: "col-xs-5 text-center" },
-					React.createElement("img", { src: '/images/zombie/receptionist.png', className: "img-responsive" })
+					React.createElement("img", { src: '/images/zombie/receptionist.png', className: "img-responsive top20" })
 				),
 				React.createElement(
 					"div",
@@ -72814,6 +72839,8 @@
 					)
 				)
 			)];
+
+			this.setLength(questions.length);
 			return questions[step];
 		},
 		checkAnswer: function checkAnswer(e) {
@@ -73278,6 +73305,26 @@
 						'h1',
 						{ className: 'text-center' },
 						'Admin'
+					),
+					React.createElement(
+						'h4',
+						null,
+						React.createElement(
+							Link,
+							{ to: '/tests/' },
+							'Test Info/Hypothesises'
+						)
+					),
+					'TODO: make graphs and comparison.',
+					React.createElement('br', null),
+					React.createElement(
+						'h4',
+						null,
+						React.createElement(
+							'a',
+							{ href: '/api/logs' },
+							'Logs'
+						)
 					)
 				)
 			);

@@ -19,6 +19,12 @@ const ZombieNarrative = React.createClass({
 		1
 	],
 
+	//TODO - inheritance seems like it might work well here.
+	setLength(length){
+		this.length = length;
+		this.props.getLength(length);
+	},
+
 	renderQuestions(step){
 		let narrativeText = {
 			fontSize: "20px"
@@ -28,7 +34,7 @@ const ZombieNarrative = React.createClass({
 			(
 				<div className="row" style={narrativeText}>
 						<div className="col-xs-5 text-center">
-							<img src={'/images/zombie/receptionist.png'} className='img-responsive' />
+							<img src={'/images/zombie/receptionist.png'} className='img-responsive top20' />
 						</div>
 						<div className="col-xs-7 top20">
 							<h3>You decided to answer the plea video</h3>
@@ -51,6 +57,8 @@ const ZombieNarrative = React.createClass({
 				</div>
 			)
 		]
+
+		this.setLength(questions.length);
 		return questions[step];
 	},
 

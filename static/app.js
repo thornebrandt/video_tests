@@ -46271,19 +46271,56 @@
 					getLength: this.getLength
 				});
 			}
+
+			var replayVideo = React.createElement(
+				'a',
+				{ className: 'btn large-text', onClick: this.onReplayVideo },
+				React.createElement(
+					'span',
+					{ className: 'glyphicon glyphicon-film' },
+					' '
+				),
+				' - Replay Video'
+			);
+
+			if (this.state.test.challenge.id = "plays") {
+				var limit = this.state.test.challenge.limit;
+				var _plays = this.state.plays;
+				var playsLeft = limit - _plays;
+				if (playsLeft > 0) {
+					replayVideo = React.createElement(
+						'a',
+						{ className: 'btn large-text', onClick: this.onReplayVideo },
+						React.createElement(
+							'span',
+							{ className: 'glyphicon glyphicon-film' },
+							' '
+						),
+						' - ',
+						playsLeft,
+						' Plays Left'
+					);
+				} else {
+					replayVideo = React.createElement(
+						'a',
+						{ className: 'btn large-text', disabled: true },
+						React.createElement(
+							'span',
+							{ className: 'glyphicon glyphicon-film' },
+							' '
+						),
+						' No More Plays :('
+					);
+				}
+			}
+
+			console.log("this.state: ", this.state);
+			console.log("this.props: ", this.props);
+
 			return React.createElement(
 				'div',
 				null,
-				React.createElement(
-					'a',
-					{ className: 'btn large-text', onClick: this.onReplayVideo },
-					React.createElement(
-						'span',
-						{ className: 'glyphicon glyphicon-film' },
-						' '
-					),
-					' - Replay Video'
-				),
+				replayVideo,
 				test
 			);
 		},
@@ -46493,11 +46530,6 @@
 			}
 		},
 		onPlayVideo: function onPlayVideo() {
-			var plays = this.state.plays;
-			plays++;
-			this.setState({
-				plays: plays
-			});
 			if (plays === 1) {
 				//it's the first.
 				this.onFirstPlay();
@@ -46515,10 +46547,17 @@
 		},
 		startTimer: function startTimer() {
 			this.setState({
-				timerRunning: true
+				timerRunning: true,
+				plays: 1
 			});
 		},
 		onReplayVideo: function onReplayVideo() {
+			var plays = this.state.plays;
+			plays++;
+			this.setState({
+				plays: plays
+			});
+
 			this.setState({
 				showVideo: true
 			});

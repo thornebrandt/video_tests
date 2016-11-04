@@ -97,11 +97,38 @@ let Test = React.createClass({
 					getLength={this.getLength}
 					/>
 		}
+
+		let replayVideo = (
+			<a className="btn large-text" onClick={this.onReplayVideo}>
+				<span className="glyphicon glyphicon-film"> </span> - Replay Video
+			</a>
+		);
+
+		if(this.state.test.challenge.id = "plays"){
+			let limit = this.state.test.challenge.limit;
+			let plays = this.state.plays;
+			let playsLeft = limit - plays;
+			if(playsLeft > 0){
+				replayVideo = (
+					<a className="btn large-text" onClick={this.onReplayVideo}>
+						<span className="glyphicon glyphicon-film"> </span> - { playsLeft } Plays Left
+					</a>
+				);
+			} else {
+				replayVideo = (
+					<a className="btn large-text" disabled>
+						<span className="glyphicon glyphicon-film"> </span> No More Plays :(
+					</a>
+				);
+			}
+		}
+
+		console.log("this.state: ", this.state);
+		console.log("this.props: ", this.props);
+
 		return (
 			<div>
-				<a className="btn large-text" onClick={this.onReplayVideo}>
-					<span className="glyphicon glyphicon-film"> </span> - Replay Video
-				</a>
+				{replayVideo}
 				{test}
 			</div>
 		);
@@ -335,11 +362,6 @@ let Test = React.createClass({
 	},
 
 	onPlayVideo(){
-		let plays = this.state.plays;
-		plays++;
-		this.setState({
-			plays: plays
-		});
 		if(plays === 1){
 			//it's the first.
 			this.onFirstPlay();
@@ -359,11 +381,18 @@ let Test = React.createClass({
 
 	startTimer(){
 		this.setState({
-			timerRunning: true
+			timerRunning: true,
+			plays: 1
 		});
 	},
 
 	onReplayVideo(){
+		let plays = this.state.plays;
+		plays++;
+		this.setState({
+			plays: plays
+		});
+
 		this.setState({
 			showVideo: true
 		});

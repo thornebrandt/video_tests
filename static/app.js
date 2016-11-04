@@ -46362,7 +46362,6 @@
 				wrong: 0,
 				showVideo: true,
 				timerRunning: false,
-				timeLeft: 1000,
 				timeUnfocused: 0,
 				timeWatching: 0
 			};
@@ -46382,8 +46381,7 @@
 			if (challenge.id === "timer") {
 				state.timer = true;
 				state.timerRunning = false;
-				//state.timeLeft = challenge.limit
-				state.timeLeft = 4;
+				state.timeLeft = challenge.limit;
 			}
 
 			if (this.props.location.query.step) {
@@ -46524,7 +46522,7 @@
 		},
 		onTimerUpdate: function onTimerUpdate() {
 			var timeLeft = this.state.timeLeft;
-			timeLeft--;
+			timeLeft = timeLeft - 1000;
 			if (timeLeft >= 0) {
 				this.setState({
 					timeLeft: timeLeft
@@ -73461,6 +73459,18 @@
 	var moment = __webpack_require__(483);
 	var timer = __webpack_require__(657);
 
+	String.prototype.toMMSS = function () {
+		var mili_num = parseInt(this, 10);
+		var sec_num = Math.floor(mili_num / 1000);
+		var hours = Math.floor(sec_num / 3600);
+		var minutes = Math.floor((sec_num - hours * 3600) / 60);
+		var seconds = sec_num - hours * 3600 - minutes * 60;
+		if (seconds < 10) {
+			seconds = "0" + seconds;
+		}
+		return minutes + ':' + seconds;
+	};
+
 	var TestTimer = React.createClass({
 		displayName: 'TestTimer',
 
@@ -73486,7 +73496,7 @@
 					this.timerRunning = false;
 				}
 			}
-			var timeLeft = this.props.timeLeft;
+			var timeLeft = this.props.timeLeft.toString().toMMSS();
 			var timerStyle = {
 				position: "absolute",
 				right: "10px",
@@ -73494,8 +73504,8 @@
 			};
 			return React.createElement(
 				'div',
-				{ className: 'largeText', style: timerStyle },
-				this.props.timeLeft
+				{ className: 'large-text', style: timerStyle },
+				timeLeft
 			);
 		}
 	});

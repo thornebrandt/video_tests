@@ -192,7 +192,6 @@ let Test = React.createClass({
 			wrong: 0,
 			showVideo: true,
 			timerRunning: false,
-			timeLeft: 1000,
 			timeUnfocused: 0,
 			timeWatching: 0
 		}
@@ -212,8 +211,7 @@ let Test = React.createClass({
 		if(challenge.id === "timer"){
 			state.timer = true;
 			state.timerRunning = false;
-			//state.timeLeft = challenge.limit
-			state.timeLeft = 4;
+			state.timeLeft = challenge.limit
 		}
 
 
@@ -374,7 +372,7 @@ let Test = React.createClass({
 
 	onTimerUpdate(){
 		let timeLeft = this.state.timeLeft;
-		timeLeft--;
+		timeLeft = timeLeft - 1000;
 		if(timeLeft >= 0){
 			this.setState({
 				timeLeft: timeLeft

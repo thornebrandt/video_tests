@@ -46371,6 +46371,12 @@
 				state.timeLeft = 4;
 			}
 
+			if (this.props.location.query.step) {
+				state.showVideo = false;
+				state.step = this.props.location.query.step;
+				state.user_id = 1, state.age = -1;
+			}
+
 			return state;
 		},
 		getUser: function getUser(user) {
@@ -72751,6 +72757,11 @@
 
 	var ZombieNarrative = React.createClass({
 		displayName: "ZombieNarrative",
+		getInitialState: function getInitialState() {
+			return {
+				currentCode: ""
+			};
+		},
 		render: function render() {
 			var greenTheme = {
 				backgroundColor: "#A5D6A7"
@@ -72767,7 +72778,8 @@
 
 		//TODO - DEAR GOD HOW HAVE I JUST REALIZED I NEED NON-LINEAR PATHS,
 		// for another day.
-		answers: [1],
+		// -- make this an actual rock paper scissors game.
+		answers: [1, 1, 1],
 
 		//TODO - inheritance seems like it might work well here.
 		setLength: function setLength(length) {
@@ -72775,9 +72787,31 @@
 			this.props.getLength(length);
 		},
 		renderQuestions: function renderQuestions(step) {
+			var _this = this;
+
 			var narrativeText = {
 				fontSize: "20px"
 			};
+
+			var codeLetter = {
+				width: "35px",
+				background: "green",
+				color: "white"
+			};
+
+			var letterString = "abcdefghijklm";
+			var codeArray = letterString.split("").map(function (l, i) {
+				return React.createElement(
+					"a",
+					{ href: "#",
+						className: "btn btn-default left5 right5 hover",
+						style: codeLetter,
+						"data-code": l,
+						key: i,
+						onClick: _this.checkCode },
+					l
+				);
+			});
 
 			var questions = [React.createElement(
 				"div",
@@ -72838,10 +72872,226 @@
 						)
 					)
 				)
+			), React.createElement(
+				"div",
+				{ className: "row", style: narrativeText },
+				React.createElement(
+					"div",
+					{ className: "col-xs-5 text-center" },
+					React.createElement("img", { src: '/images/zombie/receptionist.png', className: "img-responsive top20" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-7 top20" },
+					React.createElement(
+						"h3",
+						null,
+						"\"A dual?\""
+					),
+					React.createElement(
+						"p",
+						null,
+						"The mechanical receptionst looks intrigued."
+					),
+					React.createElement(
+						"p",
+						null,
+						"Her gears start turning after gathering dust for decades."
+					),
+					React.createElement(
+						"p",
+						null,
+						"\"What kind of dual?\""
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-4 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 0, onClick: this.checkAnswer },
+							"\"To the Death!\""
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-4 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 1, onClick: this.checkAnswer },
+							"\"Rock Paper Scissors!\""
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-4 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 2, onClick: this.checkAnswer },
+							"\"Nail Filing!\""
+						)
+					)
+				)
+			), React.createElement(
+				"div",
+				{ className: "row", style: narrativeText },
+				React.createElement(
+					"div",
+					{ className: "col-xs-5 text-center" },
+					React.createElement("img", { src: '/images/zombie/fist.png', className: "img-responsive" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-7 top20" },
+					React.createElement(
+						"p",
+						null,
+						"The receptionist starts shaking her fist"
+					),
+					React.createElement(
+						"p",
+						null,
+						"3...  2 ...."
+					),
+					React.createElement(
+						"p",
+						null,
+						"1..."
+					),
+					React.createElement(
+						"h3",
+						null,
+						"You throw: "
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-4 text-center top20 hover hover-border" },
+						React.createElement(
+							"a",
+							{ href: "#", "data-answer": 0, onClick: this.checkAnswer },
+							React.createElement("img", { src: '/images/zombie/rock.png', className: "img-responsive" })
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-4 text-center top20 hover hover-border" },
+						React.createElement(
+							"a",
+							{ href: "#", "data-answer": 1, onClick: this.checkAnswer },
+							React.createElement("img", { src: '/images/zombie/paper.png', className: "img-responsive" })
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-4 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", "data-answer": 2, onClick: this.checkAnswer },
+							React.createElement("img", { src: '/images/zombie/scissors.png', className: "img-responsive" })
+						)
+					)
+				)
+			), React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-12 text-center" },
+					React.createElement(
+						"h2",
+						null,
+						"Now to Unlock the Safe???"
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-6" },
+					React.createElement("img", { src: '/images/zombie/panel_1.png', className: "img-responsive" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-6" },
+					React.createElement("img", { src: '/images/zombie/panel_2.png', className: "img-responsive" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-12 text-center top20" },
+					React.createElement(
+						"h4",
+						null,
+						"Some kind of code..."
+					),
+					codeArray
+				)
+			), React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-12 text-center" },
+					React.createElement(
+						"h2",
+						null,
+						"You are now inside the lab! Do you remember which ingredients to pick up?"
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 hover-border" },
+						React.createElement("img", { src: '/images/zombie/flower1.png', className: "img-responsive" })
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6" },
+						React.createElement(
+							"div",
+							{ className: "col-xs-3 hover-border" },
+							React.createElement("img", { src: '/images/zombie/flower2.png', className: "img-responsive" })
+						),
+						React.createElement(
+							"div",
+							{ className: "col-xs-3 hover-border" },
+							React.createElement("img", { src: '/images/zombie/flower3.png', className: "img-responsive" })
+						),
+						React.createElement(
+							"div",
+							{ className: "col-xs-3 hover-border" },
+							React.createElement("img", { src: '/images/zombie/flower4.png', className: "img-responsive" })
+						),
+						React.createElement(
+							"div",
+							{ className: "col-xs-12 hover-border" },
+							React.createElement("img", { src: '/images/zombie/flower5.png', className: "img-responsive" })
+						)
+					)
+				)
 			)];
 
 			this.setLength(questions.length);
 			return questions[step];
+		},
+		checkCode: function checkCode(e) {
+			e.preventDefault();
+			var answer = "fejf";
+			var target = e.target;
+			var thisCode = target.getAttribute("data-code");
+			var currentCode = this.state.currentCode;
+			currentCode += thisCode;
+			console.log(currentCode);
+			if (currentCode === answer) {
+				this.props.onAnswer(true);
+				return;
+			}
+			if (answer.indexOf(currentCode) === 0) {
+				this.setState({
+					currentCode: currentCode
+				});
+				return;
+			} else {
+				this.animateWrongAnswer(target);
+				this.props.onAnswer(false);
+				this.setState({
+					currentCode: ""
+				});
+			}
 		},
 		checkAnswer: function checkAnswer(e) {
 			//TODO - these can be hashed so as not to be looked up.

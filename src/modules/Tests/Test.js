@@ -216,6 +216,14 @@ let Test = React.createClass({
 			state.timeLeft = 4;
 		}
 
+
+		if(this.props.location.query.step){
+			state.showVideo = false;
+			state.step = this.props.location.query.step;
+			state.user_id = 1,
+			state.age = -1
+		}
+
 		return state;
 	},
 

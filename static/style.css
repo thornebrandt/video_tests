@@ -14,6 +14,11 @@ footer{
 	color: gray !important;
 }
 
+.hover-border:hover{
+    border: gray solid 10px;
+}
+
+
 .fake-link{
     text-decoration: underline;
     cursor: pointer;
@@ -48,8 +53,8 @@ body{
 .top100 { margin-top:100px; }
 .top200 { margin-top:200px; }
 
-
-
+.left5 { margin-left: 5px; }
+.left10 { margin-left: 10px; }
 
 @-webkit-keyframes redFadeOut{
     0% {
@@ -108,6 +113,25 @@ body{
 }
 
 
+.relative{
+    position: relative;
+    display: block;
+    border: red solid 1px;
+}
+
+.center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
-
+.absolute{
+    position: absolute !important;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: blue solid 1px;
+    top: 0px;
+    left: 0px;
+}

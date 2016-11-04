@@ -4,7 +4,7 @@ import { browserHistory, Redirect, Router, Route, Link } from 'react-router'
 const TestList = require('./modules/Tests/TestList');
 const Test = require('./modules/Tests/Test');
 const Admin = require('./modules/Admin/Admin');
-
+const Helpers = require('./helpers/Helpers');
 
 const IndexClass = React.createClass({
 	render(){
@@ -54,6 +54,9 @@ const App = React.createClass({
 		browserHistory.push('/test');
 	},
 
+	componentWillMount(){
+		Helpers.init();
+	},
 
 	render(){
 		return (

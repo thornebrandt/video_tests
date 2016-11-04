@@ -67,6 +67,7 @@
 	var TestList = __webpack_require__(227);
 	var Test = __webpack_require__(480);
 	var Admin = __webpack_require__(658);
+	var Helpers = __webpack_require__(660);
 
 	var IndexClass = _react2.default.createClass({
 		displayName: 'IndexClass',
@@ -171,6 +172,9 @@
 		onTestClickHandler: function onTestClickHandler(e) {
 			e.preventDefault();
 			_reactRouter.browserHistory.push('/test');
+		},
+		componentWillMount: function componentWillMount() {
+			Helpers.init();
 		},
 		render: function render() {
 			return _react2.default.createElement(
@@ -46547,11 +46551,15 @@
 
 			console.log("results: ", this.props.results);
 			var greeting = "Nice Work";
+			var duration = this.props.result.test_duration.toString().toMMSS();
+
 			if (this.props.results.failed) {
 				greeting = "Nice Try";
+				duration = "Ran Out of Time :(";
 			}
 			var user = this.props.results.user;
 			var logsLink = "/api/" + user._id + "/logs";
+
 			return React.createElement(
 				'div',
 				{ className: 'col-xs-12' },
@@ -73459,24 +73467,10 @@
 	var moment = __webpack_require__(483);
 	var timer = __webpack_require__(657);
 
-	String.prototype.toMMSS = function () {
-		var mili_num = parseInt(this, 10);
-		var sec_num = Math.floor(mili_num / 1000);
-		var hours = Math.floor(sec_num / 3600);
-		var minutes = Math.floor((sec_num - hours * 3600) / 60);
-		var seconds = sec_num - hours * 3600 - minutes * 60;
-		if (seconds < 10) {
-			seconds = "0" + seconds;
-		}
-		return minutes + ':' + seconds;
-	};
-
 	var TestTimer = React.createClass({
 		displayName: 'TestTimer',
 
-
 		timerRunning: false,
-
 		startTimer: function startTimer() {
 			timer.clearInterval("countdown_timer");
 			timer.setInterval("countdown_timer", this.props.onTimerUpdate, 1000);
@@ -74040,6 +74034,31 @@
 		}]
 	};
 	module.exports = fake_all_sessions;
+
+/***/ },
+/* 660 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var Helper = {
+		init: function init() {
+			console.log("init");
+			String.prototype.toMMSS = function () {
+				var mili_num = parseInt(this, 10);
+				var sec_num = Math.floor(mili_num / 1000);
+				var hours = Math.floor(sec_num / 3600);
+				var minutes = Math.floor((sec_num - hours * 3600) / 60);
+				var seconds = sec_num - hours * 3600 - minutes * 60;
+				if (seconds < 10) {
+					seconds = "0" + seconds;
+				}
+				return minutes + ':' + seconds;
+			};
+		}
+	};
+
+	module.exports = Helper;
 
 /***/ }
 /******/ ]);

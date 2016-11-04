@@ -398,11 +398,17 @@ let Results = React.createClass({
 
 		console.log("results: ", this.props.results);
 		let greeting = "Nice Work";
+		let duration = this.props.result.test_duration.toString().toMMSS();
+
 		if(this.props.results.failed){
 			greeting = "Nice Try";
+			duration = "Ran Out of Time :(";
 		}
 		let user = this.props.results.user;
 		let logsLink = "/api/" + user._id + "/logs";
+
+
+
 		return (
 			<div className="col-xs-12">
 				<h1><strong>{greeting}, {user.name}.</strong> let's see how you did.</h1>

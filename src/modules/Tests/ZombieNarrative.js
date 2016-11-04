@@ -258,7 +258,7 @@ const ZombieNarrative = React.createClass({
 	checkAnswer(e){
 		//TODO - these can be hashed so as not to be looked up.
 		e.preventDefault();
-		let target = e.target;
+		let target = e.currentTarget;
 		let answer = target.getAttribute("data-answer");
 		if(parseInt(answer) === parseInt(this.answers[this.props.step])){
 			this.props.onAnswer(true);

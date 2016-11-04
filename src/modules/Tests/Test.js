@@ -104,7 +104,7 @@ let Test = React.createClass({
 			</a>
 		);
 
-		if(this.state.test.challenge.id = "plays"){
+		if(this.state.test.challenge.id === "plays"){
 			let limit = this.state.test.challenge.limit;
 			let plays = this.state.plays;
 			let playsLeft = limit - plays;
@@ -325,7 +325,8 @@ let Test = React.createClass({
 			let test_duration = moment.duration(test_end.diff(test_start)).asMilliseconds();
 			this.setState({
 				completed: true,
-				test_duration: test_duration
+				test_duration: test_duration,
+				timerRunning: false
 			});
 			this.log("completed", { test_duration: test_duration });
 		} else {
@@ -362,7 +363,7 @@ let Test = React.createClass({
 	},
 
 	onPlayVideo(){
-		if(plays === 1){
+		if(this.state.plays <= 1){
 			//it's the first.
 			this.onFirstPlay();
 		} else {
@@ -427,7 +428,7 @@ let Results = React.createClass({
 
 		console.log("results: ", this.props.results);
 		let greeting = "Nice Work";
-		let duration = this.props.result.test_duration.toString().toMMSS();
+		let duration = this.props.results .test_duration.toString().toMMSS();
 
 		if(this.props.results.failed){
 			greeting = "Nice Try";
@@ -441,7 +442,7 @@ let Results = React.createClass({
 		return (
 			<div className="col-xs-12">
 				<h1><strong>{greeting}, {user.name}.</strong> let's see how you did.</h1>
-				<h3>Time Spent: {this.props.results.test_duration}</h3>
+				<h3>Time Spent: {duration}</h3>
 				<h3>Wrong Answers: {this.props.results.wrong}</h3>
 				<a href={logsLink}>User Logs</a>
 			</div>

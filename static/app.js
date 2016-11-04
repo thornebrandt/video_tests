@@ -26587,7 +26587,7 @@
 				React.createElement(
 					'li',
 					null,
-					'Provide a video effect that \'distorts\' the video after every replay'
+					'Provide a video effect that \'distorts\' the video after every replay that ties into a narrative.'
 				),
 				React.createElement(
 					'li',
@@ -46283,10 +46283,10 @@
 				' - Replay Video'
 			);
 
-			if (this.state.test.challenge.id = "plays") {
+			if (this.state.test.challenge.id === "plays") {
 				var limit = this.state.test.challenge.limit;
-				var _plays = this.state.plays;
-				var playsLeft = limit - _plays;
+				var plays = this.state.plays;
+				var playsLeft = limit - plays;
 				if (playsLeft > 0) {
 					replayVideo = React.createElement(
 						'a',
@@ -46498,7 +46498,8 @@
 				var test_duration = moment.duration(test_end.diff(_test_start)).asMilliseconds();
 				this.setState({
 					completed: true,
-					test_duration: test_duration
+					test_duration: test_duration,
+					timerRunning: false
 				});
 				this.log("completed", { test_duration: test_duration });
 			} else {
@@ -46530,7 +46531,7 @@
 			}
 		},
 		onPlayVideo: function onPlayVideo() {
-			if (plays === 1) {
+			if (this.state.plays <= 1) {
 				//it's the first.
 				this.onFirstPlay();
 			} else {
@@ -46590,7 +46591,7 @@
 
 			console.log("results: ", this.props.results);
 			var greeting = "Nice Work";
-			var duration = this.props.result.test_duration.toString().toMMSS();
+			var duration = this.props.results.test_duration.toString().toMMSS();
 
 			if (this.props.results.failed) {
 				greeting = "Nice Try";
@@ -46619,7 +46620,7 @@
 					'h3',
 					null,
 					'Time Spent: ',
-					this.props.results.test_duration
+					duration
 				),
 				React.createElement(
 					'h3',
@@ -73199,7 +73200,7 @@
 		checkAnswer: function checkAnswer(e) {
 			//TODO - these can be hashed so as not to be looked up.
 			e.preventDefault();
-			var target = e.target;
+			var target = e.currentTarget;
 			var answer = target.getAttribute("data-answer");
 			if (parseInt(answer) === parseInt(this.answers[this.props.step])) {
 				this.props.onAnswer(true);

@@ -33,7 +33,7 @@ const hypothesis= (
 				<ul>
 					<li>Allow the <i>purchase</i> of a 'replay' with points</li>
 					<li>Don't have points, but make wrong answer run up the clock faster</li>
-					<li>Provide a video effect that 'distorts' the video after every replay</li>
+					<li>Provide a video effect that 'distorts' the video after every replay that ties into a narrative.</li>
 					<li>Persistent Notes text field</li>
 					<li>Persistent drawing scratchpad. ( Studies have shown drawing is more effective than writing )</li>
 					<li>Right now the 'paths' of the narrative are limited. Allow non-linear branching that stregthens interests</li>

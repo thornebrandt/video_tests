@@ -130,7 +130,7 @@ let UserAdd = React.createClass({
 	render(){
 		return(
 			<form name="addUserForm" onSubmit={this.onAddUser}>
-				<div className="row top50">
+				<div className="row top100">
 					<div className="col-xs-12">
 						<span className='large-text'>Before we begin, what is your <b>name</b>?</span>
 					</div>

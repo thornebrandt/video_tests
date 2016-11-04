@@ -57,7 +57,7 @@ const ZombieNarrative = React.createClass({
 					);
 		});
 
-
+		//TODO - sepearate the complex ones into classes.
 
 		let questions = [
 			(
@@ -166,7 +166,7 @@ const ZombieNarrative = React.createClass({
 				<div className="row">
 					<div className="col-xs-12 text-center">
 						<h2>You are now inside the lab! Do you remember which ingredients to pick up?</h2>
-						<div className="col-xs-6 hover-border">
+						<div className="col-xs-6 hover-border selected">
 							<img src={'/images/zombie/flower1.png'} className='img-responsive' />
 						</div>
 						<div className="col-xs-6">
@@ -187,7 +187,6 @@ const ZombieNarrative = React.createClass({
 				</div>
 			)
 		]
-
 		this.setLength(questions.length);
 		return questions[step];
 	},

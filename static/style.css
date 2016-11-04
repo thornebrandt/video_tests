@@ -5,7 +5,8 @@ footer{
 
 
 .selected{
-	border: white solid 1px;
+	border: white solid 10px;
+    background: red;
 }
 
 .hover:hover{
@@ -13,6 +14,9 @@ footer{
 	cursor: pointer;
 	color: gray !important;
 }
+
+
+
 
 .hover-border:hover{
     border: gray solid 10px;
@@ -116,7 +120,6 @@ body{
 .relative{
     position: relative;
     display: block;
-    border: red solid 1px;
 }
 
 .center{
@@ -134,4 +137,20 @@ body{
     border: blue solid 1px;
     top: 0px;
     left: 0px;
+}
+
+
+.rotate45{
+    -webkit-transform: rotate(-45deg);
+    /* Firefox */
+    -moz-transform: rotate(-45deg);
+
+    /* IE */
+    -ms-transform: rotate(-45deg);
+
+    /* Opera */
+    -o-transform: rotate(-45deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }

@@ -26578,6 +26578,11 @@
 				React.createElement(
 					'li',
 					null,
+					'Don\'t have points, but make wrong answer run up the clock faster'
+				),
+				React.createElement(
+					'li',
+					null,
 					'Provide a video effect that \'distorts\' the video after every replay'
 				),
 				React.createElement(
@@ -26594,6 +26599,16 @@
 					'li',
 					null,
 					'Right now the \'paths\' of the narrative are limited. Allow non-linear branching that stregthens interests'
+				),
+				React.createElement(
+					'li',
+					null,
+					'Give wrong answers a second change to lead back to the right path, or go ',
+					React.createElement(
+						'strong',
+						null,
+						'really wrong'
+					)
 				),
 				React.createElement(
 					'li',
@@ -48296,7 +48311,7 @@
 				{ name: 'addUserForm', onSubmit: this.onAddUser },
 				React.createElement(
 					'div',
-					{ className: 'row top50' },
+					{ className: 'row top100' },
 					React.createElement(
 						'div',
 						{ className: 'col-xs-12' },
@@ -72813,6 +72828,8 @@
 				);
 			});
 
+			//TODO - sepearate the complex ones into classes.
+
 			var questions = [React.createElement(
 				"div",
 				{ className: "row", style: narrativeText },
@@ -73035,7 +73052,7 @@
 					),
 					React.createElement(
 						"div",
-						{ className: "col-xs-6 hover-border" },
+						{ className: "col-xs-6 hover-border selected" },
 						React.createElement("img", { src: '/images/zombie/flower1.png', className: "img-responsive" })
 					),
 					React.createElement(
@@ -73064,7 +73081,6 @@
 					)
 				)
 			)];
-
 			this.setLength(questions.length);
 			return questions[step];
 		},
@@ -73129,18 +73145,266 @@
 			return React.createElement(
 				"div",
 				{ className: "row" },
+				this.renderQuestions(this.props.step),
+				";"
+			);
+		},
+		renderQuestions: function renderQuestions(step) {
+			var narrativeText = {
+				fontSize: "20px"
+			};
+
+			var folderLink = {
+				display: "block",
+				width: "100%",
+				color: "white",
+				fontSize: "26px",
+				fontWeight: "bold",
+				position: "absolute",
+				bottom: "90px",
+				right: "15px"
+			};
+
+			var questions = [React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-5 text-center" },
+					React.createElement("img", { src: '/images/mathnet/date_search.jpg', className: "img-responsive top20" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-7 top20" },
+					React.createElement(
+						"h3",
+						null,
+						"Detectives Missing"
+					),
+					React.createElement(
+						"p",
+						null,
+						"You were just hired to find those two missing detectives."
+					),
+					React.createElement(
+						"p",
+						null,
+						"The video log you just watched is the last known log of their whearabouts"
+					),
+					React.createElement(
+						"p",
+						null,
+						"The first thing we need to do is find the relative files on their last case in the computer."
+					),
+					React.createElement(
+						"p",
+						null,
+						React.createElement(
+							"strong",
+							null,
+							"What date log should we search through?"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 0, onClick: this.checkAnswer },
+							"FRIDAY December 12th 10:15pm"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 1, onClick: this.checkAnswer },
+							"TUESDAY  October 5th  5:38pm"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 2, onClick: this.checkAnswer },
+							"THURSDAY August 10th   9:43am"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 3, onClick: this.checkAnswer },
+							"TUESDAY  July 4th, 4:45pm"
+						)
+					)
+				)
+			), React.createElement(
+				"div",
+				{ className: "row", style: narrativeText },
 				React.createElement(
 					"div",
 					{ className: "col-xs-12" },
 					React.createElement(
-						"h2",
+						"h3",
 						null,
-						"MathnetNarrative"
+						"Suspect Files"
+					),
+					React.createElement(
+						"p",
+						null,
+						"You just received a ransom request. Time is running out. and you only have time to research one suspect. Who will it be? Pick a folder."
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-4 text-center" },
+					React.createElement(
+						"a",
+						{ "data-answer": 0, onClick: this.checkAnswer, className: "hover relative" },
+						React.createElement("img", { src: '/images/mathnet/folder.png', className: "img-responsive top20" }),
+						React.createElement(
+							"span",
+							{ style: folderLink, className: "rotate45" },
+							"WILL CALL"
+						)
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-4 text-center relative" },
+					React.createElement(
+						"a",
+						{ "data-answer": 1, onClick: this.checkAnswer, className: "hover relative" },
+						React.createElement("img", { src: '/images/mathnet/folder.png', className: "img-responsive top20" }),
+						React.createElement(
+							"span",
+							{ style: folderLink, className: "rotate45" },
+							"MR DOLLAR"
+						)
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-4 text-center relative" },
+					React.createElement(
+						"a",
+						{ "data-answer": 2, onClick: this.checkAnswer, className: "hover relative" },
+						React.createElement("img", { src: '/images/mathnet/folder.png', className: "img-responsive top20" }),
+						React.createElement(
+							"span",
+							{ style: folderLink, className: "rotate45" },
+							"CASPER FLOOSH"
+						)
 					)
 				)
-			);
+			), React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-5 text-center" },
+					React.createElement("img", { src: '/images/mathnet/buzzers.png', className: "img-responsive top20" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-7 top20" },
+					React.createElement(
+						"h3",
+						null,
+						"Arrived at Casper Floosh Address"
+					),
+					React.createElement(
+						"p",
+						null,
+						"None of these names seem to be who we are looking for."
+					),
+					React.createElement(
+						"p",
+						null,
+						"Could it be a case of stolen identity?"
+					),
+					React.createElement(
+						"p",
+						null,
+						"We have to use visual clues to determine which apartment he lives in. "
+					),
+					React.createElement(
+						"p",
+						null,
+						"Which apartment do you want to try? "
+					),
+					React.createElement(
+						"p",
+						null,
+						React.createElement(
+							"strong",
+							null,
+							"What date log should we search through?"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-xs-6 text-center top20" },
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 0, onClick: this.checkAnswer },
+							"A"
+						),
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 1, onClick: this.checkAnswer },
+							"B"
+						),
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 2, onClick: this.checkAnswer },
+							"C"
+						),
+						React.createElement(
+							"a",
+							{ href: "#", className: "btn btn-default", "data-answer": 3, onClick: this.checkAnswer },
+							"D"
+						)
+					)
+				)
+			)];
+			this.setLength(questions.length);
+			return questions[step];
 		},
-		renderQuestions: function renderQuestions(step) {}
+
+
+		answers: [2, 2, 2],
+
+		//TODO - inheritance seems like it might work well here.
+		setLength: function setLength(length) {
+			this.length = length;
+			this.props.getLength(length);
+		},
+		checkAnswer: function checkAnswer(e) {
+			//TODO - these can be hashed so as not to be looked up.
+			e.preventDefault();
+			var target = e.currentTarget;
+			var answer = target.getAttribute("data-answer");
+
+			console.log(answer + " , " + parseInt(this.answers[this.props.step]));
+
+			if (parseInt(answer) === parseInt(this.answers[this.props.step])) {
+				this.props.onAnswer(true);
+			} else {
+				this.animateWrongAnswer(target);
+				this.props.onAnswer(false);
+			}
+		},
+		animateWrongAnswer: function animateWrongAnswer(target) {
+			target.classList.remove('failure');
+			setTimeout(function () {
+				target.classList.add('failure');
+			}, 10);
+		}
 	});
 
 	module.exports = MathNetNarrative;

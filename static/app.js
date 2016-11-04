@@ -72774,7 +72774,8 @@
 		displayName: "ZombieNarrative",
 		getInitialState: function getInitialState() {
 			return {
-				currentCode: ""
+				currentCode: "",
+				flowersNeeded: [0, 2]
 			};
 		},
 		render: function render() {
@@ -72794,7 +72795,7 @@
 		//TODO - DEAR GOD HOW HAVE I JUST REALIZED I NEED NON-LINEAR PATHS,
 		// for another day.
 		// -- make this an actual rock paper scissors game.
-		answers: [1, 1, 1],
+		answers: [1, 1, 1, 1, 1, 1],
 
 		//TODO - inheritance seems like it might work well here.
 		setLength: function setLength(length) {
@@ -73052,8 +73053,12 @@
 					),
 					React.createElement(
 						"div",
-						{ className: "col-xs-6 hover-border selected" },
-						React.createElement("img", { src: '/images/zombie/flower1.png', className: "img-responsive" })
+						{ className: "col-xs-6 hover-border" },
+						React.createElement(
+							"a",
+							{ href: "#", "data-flower": 0, onClick: this.checkFlower },
+							React.createElement("img", { src: '/images/zombie/flower1.png', className: "img-responsive" })
+						)
 					),
 					React.createElement(
 						"div",
@@ -73061,28 +73066,65 @@
 						React.createElement(
 							"div",
 							{ className: "col-xs-3 hover-border" },
-							React.createElement("img", { src: '/images/zombie/flower2.png', className: "img-responsive" })
+							React.createElement(
+								"a",
+								{ href: "#", "data-flower": 1, onClick: this.checkFlower },
+								React.createElement("img", { src: '/images/zombie/flower2.png', className: "img-responsive" })
+							)
 						),
 						React.createElement(
 							"div",
 							{ className: "col-xs-3 hover-border" },
-							React.createElement("img", { src: '/images/zombie/flower3.png', className: "img-responsive" })
+							React.createElement(
+								"a",
+								{ href: "#", "data-flower": 2, onClick: this.checkFlower },
+								React.createElement("img", { src: '/images/zombie/flower3.png', className: "img-responsive" })
+							)
 						),
 						React.createElement(
 							"div",
 							{ className: "col-xs-3 hover-border" },
-							React.createElement("img", { src: '/images/zombie/flower4.png', className: "img-responsive" })
+							React.createElement(
+								"a",
+								{ href: "#", "data-flower": 3, onClick: this.checkFlower },
+								React.createElement("img", { src: '/images/zombie/flower4.png', className: "img-responsive" })
+							)
 						),
 						React.createElement(
 							"div",
 							{ className: "col-xs-12 hover-border" },
-							React.createElement("img", { src: '/images/zombie/flower5.png', className: "img-responsive" })
+							React.createElement(
+								"a",
+								{ href: "#", "data-flower": 4, onClick: this.checkFlower },
+								React.createElement("img", { src: '/images/zombie/flower5.png', className: "img-responsive" })
+							)
 						)
 					)
 				)
 			)];
 			this.setLength(questions.length);
 			return questions[step];
+		},
+		checkFlower: function checkFlower(e) {
+			e.preventDefault();
+			var target = e.currentTarget;
+			var thisFlower = parseInt(target.getAttribute("data-flower"));
+			var flowersNeeded = this.state.flowersNeeded;
+			var flowerIndex = flowersNeeded.indexOf(thisFlower);
+			if (flowerIndex !== -1) {
+				flowersNeeded.splice(flowerIndex, 1);
+				console.log("new Flowers Needed: ", flowersNeeded);
+
+				this.setState({
+					flowersNeeded: flowersNeeded
+				});
+				if (!flowersNeeded.length) {
+					this.props.onAnswer(true);
+				}
+			} else {
+				this.props.onAnswer(false);
+				return;
+			}
 		},
 		checkCode: function checkCode(e) {
 			e.preventDefault();

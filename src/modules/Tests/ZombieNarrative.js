@@ -3,7 +3,8 @@ const React = require('react');
 const ZombieNarrative = React.createClass({
 	getInitialState(){
 		return {
-			currentCode: ""
+			currentCode: "",
+			flowersNeeded: [0, 2]
 		};
 	},
 
@@ -23,6 +24,9 @@ const ZombieNarrative = React.createClass({
 	// for another day.
 	// -- make this an actual rock paper scissors game.
 	answers: [
+		1,
+		1,
+		1,
 		1,
 		1,
 		1
@@ -166,21 +170,31 @@ const ZombieNarrative = React.createClass({
 				<div className="row">
 					<div className="col-xs-12 text-center">
 						<h2>You are now inside the lab! Do you remember which ingredients to pick up?</h2>
-						<div className="col-xs-6 hover-border selected">
-							<img src={'/images/zombie/flower1.png'} className='img-responsive' />
+						<div className="col-xs-6 hover-border">
+							<a href="#" data-flower={0} onClick={this.checkFlower} >
+								<img src={'/images/zombie/flower1.png'} className='img-responsive' />
+							</a>
 						</div>
 						<div className="col-xs-6">
 							<div className="col-xs-3 hover-border">
-								<img src={'/images/zombie/flower2.png'} className='img-responsive' />
+								<a href="#" data-flower={1} onClick={this.checkFlower} >
+									<img src={'/images/zombie/flower2.png'} className='img-responsive' />
+								</a>
 							</div>
 							<div className="col-xs-3 hover-border">
-								<img src={'/images/zombie/flower3.png'} className='img-responsive' />
+								<a href="#" data-flower={2} onClick={this.checkFlower} >
+									<img src={'/images/zombie/flower3.png'} className='img-responsive' />
+								</a>
 							</div>
 							<div className="col-xs-3 hover-border">
-								<img src={'/images/zombie/flower4.png'} className='img-responsive' />
+								<a href="#" data-flower={3} onClick={this.checkFlower} >
+									<img src={'/images/zombie/flower4.png'} className='img-responsive' />
+								</a>
 							</div>
 							<div className="col-xs-12 hover-border">
-								<img src={'/images/zombie/flower5.png'} className='img-responsive' />
+								<a href="#" data-flower={4} onClick={this.checkFlower} >
+									<img src={'/images/zombie/flower5.png'} className='img-responsive' />
+								</a>
 							</div>
 						</div>
 					</div>
@@ -190,6 +204,30 @@ const ZombieNarrative = React.createClass({
 		this.setLength(questions.length);
 		return questions[step];
 	},
+
+	checkFlower(e){
+		e.preventDefault();
+		let target = e.currentTarget;
+		let thisFlower = parseInt(target.getAttribute("data-flower"));
+		let flowersNeeded = this.state.flowersNeeded;
+		let flowerIndex = flowersNeeded.indexOf(thisFlower);
+		if(flowerIndex !== -1){
+			flowersNeeded.splice(flowerIndex, 1);
+			console.log("new Flowers Needed: ", flowersNeeded);
+
+
+			this.setState({
+				flowersNeeded: flowersNeeded
+			});
+			if(!flowersNeeded.length){
+				this.props.onAnswer(true);
+			}
+		} else {
+			this.props.onAnswer(false);
+			return;
+		}
+	},
+
 
 	checkCode(e){
 		e.preventDefault();

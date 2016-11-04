@@ -46076,7 +46076,7 @@
 				challenges: {
 					timer: {
 						description: "3 minute video. 6 minute time limit.",
-						limit: 360000,
+						limit: 7000,
 						id: "timer"
 					},
 					plays: {
@@ -46314,9 +46314,6 @@
 				}
 			}
 
-			console.log("this.state: ", this.state);
-			console.log("this.props: ", this.props);
-
 			return React.createElement(
 				'div',
 				null,
@@ -46491,25 +46488,28 @@
 			this.log("right_answer");
 		},
 		completeTest: function completeTest() {
+			var failed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 			var test_start = this.state.test_start_timestamp;
+			var test_duration = void 0;
 			if (test_start) {
 				var test_end = new moment();
 				var _test_start = new moment(this.state.test_start_timestamp);
-				var test_duration = moment.duration(test_end.diff(_test_start)).asMilliseconds();
-				this.setState({
-					completed: true,
-					test_duration: test_duration,
-					timerRunning: false
-				});
-				this.log("completed", { test_duration: test_duration });
+				test_duration = moment.duration(test_end.diff(_test_start)).asMilliseconds();
 			} else {
-				//debug or error.
+				test_duration = 15000;
 				console.log("That's odd, there was no test start.");
-				this.setState({
-					completed: true,
-					test_duration: 15000
-				});
 			}
+			this.setState({
+				completed: true,
+				failed: failed,
+				test_duration: test_duration,
+				timerRunning: false
+			});
+			this.log("completed", { test_duration: test_duration });
+		},
+		onTimerComplete: function onTimerComplete() {
+			this.completeTest(true);
 		},
 		getLength: function getLength(length) {
 			//to make sure we're dependent on questions that exist in test
@@ -46528,6 +46528,9 @@
 		checkTestStartTimeStamp: function checkTestStartTimeStamp() {
 			if (!this.state.test_start_timestamp) {
 				this.state.test_start_timestamp = new Date();
+			}
+			if (!this.state.timerRunning) {
+				this.startTimer();
 			}
 		},
 		onPlayVideo: function onPlayVideo() {
@@ -46574,13 +46577,6 @@
 			} else {
 				this.onTimerComplete();
 			}
-		},
-		onTimerComplete: function onTimerComplete() {
-			this.setState({
-				timerRunning: false,
-				completed: true,
-				failed: true
-			});
 		}
 	});
 
@@ -46589,7 +46585,6 @@
 		render: function render() {
 			//TODO - save this for smaller logs 'results', made for comparisons
 
-			console.log("results: ", this.props.results);
 			var greeting = "Nice Work";
 			var duration = this.props.results.test_duration.toString().toMMSS();
 
@@ -74083,7 +74078,6 @@
 
 	var Helper = {
 		init: function init() {
-			console.log("init");
 			String.prototype.toMMSS = function () {
 				var mili_num = parseInt(this, 10);
 				var sec_num = Math.floor(mili_num / 1000);

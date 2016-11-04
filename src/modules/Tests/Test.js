@@ -123,9 +123,6 @@ let Test = React.createClass({
 			}
 		}
 
-		console.log("this.state: ", this.state);
-		console.log("this.props: ", this.props);
-
 		return (
 			<div>
 				{replayVideo}
@@ -317,26 +314,28 @@ let Test = React.createClass({
 		this.log("right_answer");
 	},
 
-	completeTest(){
+	completeTest(failed=false){
 		let test_start = this.state.test_start_timestamp;
+		let test_duration;
 		if(test_start){
 			let test_end = new moment();
 			let test_start = new moment(this.state.test_start_timestamp);
-			let test_duration = moment.duration(test_end.diff(test_start)).asMilliseconds();
-			this.setState({
-				completed: true,
-				test_duration: test_duration,
-				timerRunning: false
-			});
-			this.log("completed", { test_duration: test_duration });
+			test_duration = moment.duration(test_end.diff(test_start)).asMilliseconds();
 		} else {
-			//debug or error.
+			test_duration = 15000;
 			console.log("That's odd, there was no test start.");
-			this.setState({
-				completed: true,
-				test_duration: 15000
-			});
 		}
+		this.setState({
+			completed: true,
+			failed: failed,
+			test_duration: test_duration,
+			timerRunning: false
+		});
+		this.log("completed", { test_duration: test_duration });
+	},
+
+	onTimerComplete(){
+		this.completeTest(true);
 	},
 
 	getLength(length){
@@ -359,6 +358,9 @@ let Test = React.createClass({
 	checkTestStartTimeStamp(){
 		if(!this.state.test_start_timestamp){
 			this.state.test_start_timestamp = new Date();
+		}
+		if(!this.state.timerRunning){
+			this.startTimer();
 		}
 	},
 
@@ -412,23 +414,14 @@ let Test = React.createClass({
 		}
 	},
 
-	onTimerComplete(){
-		this.setState({
-			timerRunning: false,
-			completed: true,
-			failed: true
-		});
-	},
-
 });
 
 let Results = React.createClass({
 	render(){
 		//TODO - save this for smaller logs 'results', made for comparisons
 
-		console.log("results: ", this.props.results);
 		let greeting = "Nice Work";
-		let duration = this.props.results .test_duration.toString().toMMSS();
+		let duration = this.props.results.test_duration.toString().toMMSS();
 
 		if(this.props.results.failed){
 			greeting = "Nice Try";

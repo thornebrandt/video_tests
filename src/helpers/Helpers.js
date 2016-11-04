@@ -1,6 +1,5 @@
 let Helper = {
 	init(){
-		console.log("init");
 		String.prototype.toMMSS = function () {
 			let mili_num = parseInt(this, 10);
 			let sec_num = Math.floor(mili_num / 1000);

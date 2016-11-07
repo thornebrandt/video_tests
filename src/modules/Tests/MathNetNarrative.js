@@ -158,6 +158,8 @@ const MathNetNarrative = React.createClass({
 		}
 	},
 
+
+	//TODO - move this to the parent directory
 	animateWrongAnswer(target){
 		target.classList.remove('failure');
 		setTimeout(() => {

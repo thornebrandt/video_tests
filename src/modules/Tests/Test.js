@@ -21,23 +21,43 @@ let Test = React.createClass({
 	render(){
 		let test = this.state.test;
 		return (
-			<div className="container">
-				{this.state.timer && <TestTimer
-										onTimerUpdate={this.onTimerUpdate}
-										timerRunning={this.state.timerRunning}
-										timeLeft={this.state.timeLeft}/>}
-				<div className="r   ow">
-					<div className="col-xs-12">
-						<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
+			<div>
+				<div className="container">
+					{this.state.timer && <TestTimer
+											onTimerUpdate={this.onTimerUpdate}
+											timerRunning={this.state.timerRunning}
+											timeLeft={this.state.timeLeft}/>}
+					<div className="row">
+						<div className="col-xs-12">
+							<h3><strong>{test.video.title} video</strong> - {test.type} questions - {test.challenge.description }</h3>
+						</div>
+						{this.renderWrongAnswers()}
+						{this.renderTestContent()}
 					</div>
-					{this.renderWrongAnswers()}
-					{this.renderTestContent()}
+					<hr />
 				</div>
-				<hr />
-
+				{this.renderAnswerFeedback()}
 			</div>
 		);
 	},
+
+	renderAnswerFeedback(){
+		return(
+			<div>
+				<div id='wrongAnswer'>
+					<span>
+						WRONG
+					</span>
+				</div>
+				<div id='rightAnswer'>
+					<span>
+						RIGHT!
+					</span>
+				</div>
+			</div>
+		);
+	},
+
 
 	renderTestContent(){
 		return (
@@ -265,6 +285,7 @@ let Test = React.createClass({
 			if(currentStep >= this.length){
 				this.completeTest();
 			} else {
+				this.animateAnswer("rightAnswer");
 				this.progress(currentStep);
 			}
 		} else {
@@ -279,8 +300,18 @@ let Test = React.createClass({
 			wrong: wrong
 		});
 		this.log("wrong_answer");
+		this.animateAnswer("wrongAnswer");
 	},
 
+	animateAnswer(_el){
+		let fadeClass = 'fadeInOut';
+		let el = document.getElementById(_el);
+		el.classList.remove(fadeClass);
+		setTimeout(() => {
+			el.classList.add(fadeClass);
+		}, 10);
+
+	},
 
 	renderWrongAnswers(){
 		let answers = this.state.wrong || 0;
@@ -430,14 +461,14 @@ let Results = React.createClass({
 		let user = this.props.results.user;
 		let logsLink = "/api/" + user._id + "/logs";
 
-
-
 		return (
 			<div className="col-xs-12">
 				<h1><strong>{greeting}, {user.name}.</strong> let's see how you did.</h1>
 				<h3>Time Spent: {duration}</h3>
 				<h3>Wrong Answers: {this.props.results.wrong}</h3>
-				<a href={logsLink}>User Logs</a>
+				<a href={logsLink}>User Logs</a><br />
+				<a className="btn btn-success" href='/test' onClick={this.onLinkClickHandler}>New Random Test</a><br />
+				<Link className="btn btn-warning" to="/admin">Admin</Link>
 			</div>
 		)
 	}

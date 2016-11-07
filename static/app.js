@@ -46185,36 +46185,65 @@
 			var test = this.state.test;
 			return React.createElement(
 				'div',
-				{ className: 'container' },
-				this.state.timer && React.createElement(TestTimer, {
-					onTimerUpdate: this.onTimerUpdate,
-					timerRunning: this.state.timerRunning,
-					timeLeft: this.state.timeLeft }),
+				null,
 				React.createElement(
 					'div',
-					{ className: 'r   ow' },
+					{ className: 'container' },
+					this.state.timer && React.createElement(TestTimer, {
+						onTimerUpdate: this.onTimerUpdate,
+						timerRunning: this.state.timerRunning,
+						timeLeft: this.state.timeLeft }),
 					React.createElement(
 						'div',
-						{ className: 'col-xs-12' },
+						{ className: 'row' },
 						React.createElement(
-							'h3',
-							null,
+							'div',
+							{ className: 'col-xs-12' },
 							React.createElement(
-								'strong',
+								'h3',
 								null,
-								test.video.title,
-								' video'
-							),
-							' - ',
-							test.type,
-							' questions - ',
-							test.challenge.description
-						)
+								React.createElement(
+									'strong',
+									null,
+									test.video.title,
+									' video'
+								),
+								' - ',
+								test.type,
+								' questions - ',
+								test.challenge.description
+							)
+						),
+						this.renderWrongAnswers(),
+						this.renderTestContent()
 					),
-					this.renderWrongAnswers(),
-					this.renderTestContent()
+					React.createElement('hr', null)
 				),
-				React.createElement('hr', null)
+				this.renderAnswerFeedback()
+			);
+		},
+		renderAnswerFeedback: function renderAnswerFeedback() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'div',
+					{ id: 'wrongAnswer' },
+					React.createElement(
+						'span',
+						null,
+						'WRONG'
+					)
+				),
+				React.createElement(
+					'div',
+					{ id: 'rightAnswer' },
+					React.createElement(
+						'span',
+						null,
+						'RIGHT!'
+					)
+				)
 			);
 		},
 		renderTestContent: function renderTestContent() {
@@ -46445,6 +46474,7 @@
 				if (currentStep >= this.length) {
 					this.completeTest();
 				} else {
+					this.animateAnswer("rightAnswer");
 					this.progress(currentStep);
 				}
 			} else {
@@ -46458,6 +46488,15 @@
 				wrong: wrong
 			});
 			this.log("wrong_answer");
+			this.animateAnswer("wrongAnswer");
+		},
+		animateAnswer: function animateAnswer(_el) {
+			var fadeClass = 'fadeInOut';
+			var el = document.getElementById(_el);
+			el.classList.remove(fadeClass);
+			setTimeout(function () {
+				el.classList.add(fadeClass);
+			}, 10);
 		},
 		renderWrongAnswers: function renderWrongAnswers() {
 			var answers = this.state.wrong || 0;
@@ -46627,6 +46666,18 @@
 					'a',
 					{ href: logsLink },
 					'User Logs'
+				),
+				React.createElement('br', null),
+				React.createElement(
+					'a',
+					{ className: 'btn btn-success', href: '/test', onClick: this.onLinkClickHandler },
+					'New Random Test'
+				),
+				React.createElement('br', null),
+				React.createElement(
+					Link,
+					{ className: 'btn btn-warning', to: '/admin' },
+					'Admin'
 				)
 			);
 		}
@@ -73482,6 +73533,9 @@
 				this.props.onAnswer(false);
 			}
 		},
+
+
+		//TODO - move this to the parent directory
 		animateWrongAnswer: function animateWrongAnswer(target) {
 			target.classList.remove('failure');
 			setTimeout(function () {

@@ -25,6 +25,11 @@ app.get('/api/logs', (req, res) =>{
 	if(req.query.test){
 		filter['test.id'] = req.query.test;
 	}
+
+	if(req.query.action){
+		filter['action'] = req.query.action;
+	}
+
 	if(req.query.age){
 		filter.age = req.query.age
 	}

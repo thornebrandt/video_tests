@@ -67,7 +67,7 @@
 	var TestList = __webpack_require__(227);
 	var Test = __webpack_require__(480);
 	var Admin = __webpack_require__(658);
-	var Helpers = __webpack_require__(660);
+	var Helpers = __webpack_require__(661);
 
 	var IndexClass = _react2.default.createClass({
 		displayName: 'IndexClass',
@@ -117,7 +117,7 @@
 							_react2.default.createElement('br', null),
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ className: 'btn', to: '/api/logs' },
+								{ className: 'btn', to: '/admin' },
 								'See Data'
 							)
 						)
@@ -73886,9 +73886,31 @@
 	var ReactDOM = __webpack_require__(34);
 	var Link = __webpack_require__(172).Link;
 	var fake_all_sessions = __webpack_require__(659);
+	var TestStats = __webpack_require__(660);
 
 	var Admin = React.createClass({
 		displayName: 'Admin',
+		getInitialState: function getInitialState() {
+			return {};
+		},
+		componentDidMount: function componentDidMount() {
+			this.loadTestLogs();
+		},
+
+
+		loadTestLogs: function loadTestLogs() {
+			var _this = this;
+
+			var query = this.props.location.search;
+			return fetch('/api/logs?action=completed').then(function (response) {
+				return response.json();
+			}).then(function (data) {
+				_this.setState({ test_logs: data });
+			}).catch(function (error) {
+				console.log("error fetching logs ");
+			});
+		},
+
 		render: function render() {
 			return React.createElement(
 				'div',
@@ -73912,13 +73934,14 @@
 					),
 					'TODO: make graphs and comparison.',
 					React.createElement('br', null),
+					React.createElement(TestStats, { test_logs: this.state.test_logs }),
 					React.createElement(
 						'h4',
 						null,
 						React.createElement(
 							'a',
 							{ href: '/api/logs' },
-							'Logs'
+							'Raw Logs'
 						)
 					)
 				)
@@ -74072,6 +74095,166 @@
 
 /***/ },
 /* 660 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(228);
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(34);
+	var Link = __webpack_require__(172).Link;
+	var moment = __webpack_require__(483);
+
+	var TestStats = React.createClass({
+		displayName: 'TestStats',
+		parseLogs: function parseLogs(test_logs) {
+			console.log("parsing logs: ", test_logs);
+		},
+		componentDidMount: function componentDidMount() {
+			console.log("component did mount");
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'h3',
+					null,
+					'Test Stats'
+				),
+				this.props.test_logs && React.createElement(ResultTable, { test_logs: this.props.test_logs })
+			);
+		}
+	});
+
+	var ResultTable = React.createClass({
+		displayName: 'ResultTable',
+		getRows: function getRows() {
+			return this.props.test_logs.map(function (log, i) {
+				return React.createElement(ResultRow, { log: log, key: i });
+			});
+		},
+		render: function render() {
+
+			return React.createElement(
+				'table',
+				{ className: 'table table-bordered table-striped' },
+				React.createElement(
+					'thead',
+					null,
+					React.createElement(
+						'tr',
+						null,
+						React.createElement(
+							'td',
+							null,
+							'Name'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Test'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Type'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Challenge'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Age'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Wrong Answers'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Duration'
+						),
+						React.createElement(
+							'td',
+							null,
+							'Date'
+						)
+					)
+				),
+				React.createElement(
+					'tbody',
+					null,
+					this.getRows()
+				)
+			);
+		}
+	});
+
+	var ResultRow = React.createClass({
+		displayName: 'ResultRow',
+		render: function render() {
+			var log = this.props.log;
+			var video_title = log.test.video.title;
+			var readableTimeStamp = new moment(log.timestamp).format("dddd, MM/DD/YYYY, h:mm:ss a");
+			var readableDuration = log.test_duration.toString().toMMSS();
+			return React.createElement(
+				'tr',
+				null,
+				React.createElement(
+					'td',
+					null,
+					log.user.name
+				),
+				React.createElement(
+					'td',
+					null,
+					video_title
+				),
+				React.createElement(
+					'td',
+					null,
+					log.test.type
+				),
+				React.createElement(
+					'td',
+					null,
+					log.test.challenge.id
+				),
+				React.createElement(
+					'td',
+					null,
+					log.user.age
+				),
+				React.createElement(
+					'td',
+					null,
+					log.wrong
+				),
+				React.createElement(
+					'td',
+					null,
+					readableDuration
+				),
+				React.createElement(
+					'td',
+					null,
+					readableTimeStamp
+				)
+			);
+		}
+	});
+
+	module.exports = TestStats;
+
+/***/ },
+/* 661 */
 /***/ function(module, exports) {
 
 	"use strict";

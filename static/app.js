@@ -73959,6 +73959,8 @@
 			return fetch('/api/logs?action=completed').then(function (response) {
 				return response.json();
 			}).then(function (data) {
+				console.log("#>$@34");
+				console.log(data);
 				_this.setState({ test_logs: data });
 			}).catch(function (error) {
 				console.log("error fetching logs ");
@@ -74162,9 +74164,6 @@
 
 	var TestStats = React.createClass({
 		displayName: 'TestStats',
-		parseLogs: function parseLogs(test_logs) {
-			console.log("parsing logs: ", test_logs);
-		},
 		componentDidMount: function componentDidMount() {
 			console.log("component did mount");
 		},
@@ -74254,54 +74253,61 @@
 	var ResultRow = React.createClass({
 		displayName: 'ResultRow',
 		render: function render() {
-			var log = this.props.log;
-			var video_title = log.test.video.title;
-			var readableTimeStamp = new moment(log.timestamp).format("dddd, MM/DD/YYYY, h:mm:ss a");
-			var readableDuration = log.test_duration.toString().toMMSS();
-			return React.createElement(
-				'tr',
-				null,
-				React.createElement(
-					'td',
+			try {
+
+				var log = this.props.log;
+				var video_title = log.test.video.title;
+				var readableTimeStamp = new moment(log.timestamp).format("dddd, MM/DD/YYYY, h:mm:ss a");
+				var testDuration = log.test_duration || 1500;
+				var readableDuration = testDuration.toString().toMMSS();
+				var user = log.user || { name: "debug", age: -1 };
+				return React.createElement(
+					'tr',
 					null,
-					log.user.name
-				),
-				React.createElement(
-					'td',
-					null,
-					video_title
-				),
-				React.createElement(
-					'td',
-					null,
-					log.test.type
-				),
-				React.createElement(
-					'td',
-					null,
-					log.test.challenge.id
-				),
-				React.createElement(
-					'td',
-					null,
-					log.user.age
-				),
-				React.createElement(
-					'td',
-					null,
-					log.wrong
-				),
-				React.createElement(
-					'td',
-					null,
-					readableDuration
-				),
-				React.createElement(
-					'td',
-					null,
-					readableTimeStamp
-				)
-			);
+					React.createElement(
+						'td',
+						null,
+						user.name
+					),
+					React.createElement(
+						'td',
+						null,
+						video_title
+					),
+					React.createElement(
+						'td',
+						null,
+						log.test.type
+					),
+					React.createElement(
+						'td',
+						null,
+						log.test.challenge.id
+					),
+					React.createElement(
+						'td',
+						null,
+						user.age
+					),
+					React.createElement(
+						'td',
+						null,
+						log.wrong
+					),
+					React.createElement(
+						'td',
+						null,
+						readableDuration
+					),
+					React.createElement(
+						'td',
+						null,
+						readableTimeStamp
+					)
+				);
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	});
 

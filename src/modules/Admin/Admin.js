@@ -19,6 +19,8 @@ let Admin = React.createClass({
 		return fetch('/api/logs?action=completed')
 		.then((response) => response.json())
 		.then((data) => {
+			console.log("#>$@34");
+			console.log(data);
 			this.setState({ test_logs: data });
 		})
 		.catch((error) => {
@@ -36,7 +38,6 @@ let Admin = React.createClass({
 						<br />
 						<TestStats test_logs={this.state.test_logs} />
 						<h4><a href={'/api/logs'}>Raw Logs</a></h4>
-
 				</div>
 			</div>
 		);

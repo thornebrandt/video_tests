@@ -6,10 +6,6 @@ const moment = require('moment');
 
 let TestStats = React.createClass({
 
-	parseLogs(test_logs){
-		console.log("parsing logs: ", test_logs);
-	},
-
 	componentDidMount(){
 		console.log("component did mount");
 	},
@@ -58,24 +54,34 @@ const ResultTable = React.createClass({
 
 const ResultRow = React.createClass({
 	render(){
-		let log = this.props.log;
-		let video_title = log.test.video.title;
-		let readableTimeStamp = new moment(log.timestamp).format("dddd, MM/DD/YYYY, h:mm:ss a");
-		let readableDuration = log.test_duration.toString().toMMSS();
-		return(
-			<tr>
-				<td>{log.user.name}</td>
-				<td>{video_title}</td>
-				<td>{log.test.type}</td>
-				<td>{log.test.challenge.id}</td>
-				<td>{log.user.age}</td>
-				<td>{log.wrong}</td>
-				<td>{readableDuration}</td>
-				<td>{readableTimeStamp}</td>
-			</tr>
-		);
+		try{
+
+			let log = this.props.log;
+			let video_title = log.test.video.title;
+			let readableTimeStamp = new moment(log.timestamp).format("dddd, MM/DD/YYYY, h:mm:ss a");
+			let testDuration = log.test_duration || 1500;
+			let readableDuration = testDuration.toString().toMMSS();
+			let user = log.user || { name: "debug", age: -1 };
+			return(
+				<tr>
+					<td>{user.name}</td>
+					<td>{video_title}</td>
+					<td>{log.test.type}</td>
+					<td>{log.test.challenge.id}</td>
+					<td>{user.age}</td>
+					<td>{log.wrong}</td>
+					<td>{readableDuration}</td>
+					<td>{readableTimeStamp}</td>
+				</tr>
+			);
+		} catch(e){
+			console.log(e);
+		}
 	}
 });
+
+
+
 
 
 

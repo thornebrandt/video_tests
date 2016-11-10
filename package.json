@@ -1,8 +1,8 @@
 {
-  "name": "MERN_boilerplate",
+  "name": "VideoTests",
   "version": "1.0.0",
   "private": "true",
-  "description": "Boilerplate for Mongo Express React Node",
+  "description": "App for video comprehension tests",
   "main": "index.js",
   "scripts": {
     "start": "node webapp.js",

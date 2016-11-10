@@ -46,7 +46,7 @@ let Test = React.createClass({
 			<div>
 				<div id='wrongAnswer'>
 					<span>
-						WRONG
+						WRONG!
 					</span>
 				</div>
 				<div id='rightAnswer'>

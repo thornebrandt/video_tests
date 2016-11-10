@@ -41,8 +41,8 @@ const test_options = {
 			},
 			challenges: {
 				timer: {
-					description: "3 minute video. 6 minute time limit.",
-					limit: 7000,
+					description: "2 minute video. 4 minute time limit.",
+					limit: 240000,
 					id: "timer"
 				},
 				plays: {

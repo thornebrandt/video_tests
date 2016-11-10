@@ -46299,18 +46299,20 @@
 		log: function log(action) {
 			var _log = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-			//TODO - try ellipses syntax here ( es2017 ) ?
-			var log = Object.assign({ action: action, timestamp: new Date() }, _log, this.state);
-			return fetch('/api/logs', {
-				method: 'POST',
-				body: JSON.stringify(log),
-				mode: 'cors',
-				headers: new Headers({
-					'Content-Type': 'application/json'
-				})
-			}).catch(function (error) {
-				console.log("error posting log ", error);
-			});
+			if (!this.state.debug) {
+				//TODO - try ellipses syntax here ( es2017 ) ?
+				var log = Object.assign({ action: action, timestamp: new Date() }, _log, this.state);
+				return fetch('/api/logs', {
+					method: 'POST',
+					body: JSON.stringify(log),
+					mode: 'cors',
+					headers: new Headers({
+						'Content-Type': 'application/json'
+					})
+				}).catch(function (error) {
+					console.log("error posting log ", error);
+				});
+			}
 		},
 		checkUserFocus: function checkUserFocus() {
 			timer.clearInterval("window_focus");
@@ -46398,6 +46400,7 @@
 				state.showVideo = false;
 				state.step = this.props.location.query.step;
 				state.user_id = 1, state.age = -1;
+				state.debug = true;
 			}
 
 			return state;

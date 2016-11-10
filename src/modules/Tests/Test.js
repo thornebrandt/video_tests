@@ -66,7 +66,7 @@ let Test = React.createClass({
 				{!this.state.completed && this.state.user_id && this.renderTest()}
 				{this.state.completed && <Results
 											results={this.state}
-										 />}
+										/>}
 
 			</div>
 		);

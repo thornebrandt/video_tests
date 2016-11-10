@@ -16,7 +16,7 @@ const hypothesis= (
 					improved if there is a sense of need to resolve a
 					problem <strong>inside of a narrative</strong>.
 					If there is a incentive to unlock <strong>supplementary content </strong>
-					 by solving puzzles, learning the material will be desirable.
+					by solving puzzles, learning the material will be desirable.
 				</p>
 				<p>
 					Smaller improvements can be made by increasing the sense of urgency,

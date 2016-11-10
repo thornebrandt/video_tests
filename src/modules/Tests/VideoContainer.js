@@ -4,56 +4,53 @@ const ReactDOM = require('react-dom');
 import YouTube from 'react-youtube';
 
 let VideoContainer = React.createClass({
-	render(){
+	render() {
 		let videoOptions = {
 			showinfo: 0
 		}
 
-		return(
-			<div className="text-center">
-				<YouTube
-			        videoId={this.props.test.video.url}
-			        opts={videoOptions}
-			        onStateChange={this.onVideoEvent}
-			        onPlaybackRateChange={this.onPlaybackChange}
-			      />
-			      <br />
-				<a className="btn btn-primary" onClick={this.props.onClose}>Take me to Test</a>
-			</div>
+		return ( < div className = "text-center" >
+			< YouTube videoId = { this.props.test.video.url }
+			opts = { videoOptions }
+			onStateChange = { this.onVideoEvent }
+			onPlaybackRateChange = { this.onPlaybackChange }
+			/> < br / >
+			< a className = "btn btn-primary"
+			onClick = { this.props.onClose } > Take me to Test < /a> < /div>
 		)
 	},
 
-	onPlaybackChange(e){
+	onPlaybackChange(e) {
 		//interesting to test the correlation.
 		let videoAction = {
 			action: 'rate_change',
 			speed: e.data,
 			timecode: e.target.getCurrentTime()
 		}
-		if(this.props.onVideoEvent){
+		if (this.props.onVideoEvent) {
 			this.props.onVideoEvent(videoAction);
 		}
 	},
 
-	onVideoEvent(e){
+	onVideoEvent(e) {
 		let action;
-		switch(e.data){
+		switch (e.data) {
 			case 0:
-				action="video_end";
+				action = "video_end";
 				break;
 			case 1:
-				action="play";
+				action = "play";
 				this.props.onPlay();
 				break;
 			case 2:
-				action="pause";
+				action = "pause";
 				break;
 			case -1:
 			case 3:
 			case 5:
 				return;
 			default:
-				action="unknown"
+				action = "unknown"
 				break;
 		}
 
@@ -63,7 +60,7 @@ let VideoContainer = React.createClass({
 			timecode: e.target.getCurrentTime()
 		}
 
-		if(this.props.onVideoEvent){
+		if (this.props.onVideoEvent) {
 			this.props.onVideoEvent(videoAction);
 		}
 	}
@@ -71,4 +68,3 @@ let VideoContainer = React.createClass({
 });
 
 module.exports = VideoContainer;
-

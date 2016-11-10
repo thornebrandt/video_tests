@@ -63087,18 +63087,20 @@
 			return React.createElement(
 				'div',
 				{ className: 'text-center' },
-				React.createElement(_reactYoutube2.default, {
-					videoId: this.props.test.video.url,
+				React.createElement(_reactYoutube2.default, { videoId: this.props.test.video.url,
 					opts: videoOptions,
 					onStateChange: this.onVideoEvent,
 					onPlaybackRateChange: this.onPlaybackChange
 				}),
+				' ',
 				React.createElement('br', null),
 				React.createElement(
 					'a',
-					{ className: 'btn btn-primary', onClick: this.props.onClose },
-					'Take me to Test'
-				)
+					{ className: 'btn btn-primary',
+						onClick: this.props.onClose },
+					' Take me to Test '
+				),
+				' '
 			);
 		},
 		onPlaybackChange: function onPlaybackChange(e) {
